@@ -122,6 +122,8 @@
   } else pc.remove();
   var PP = C.pressPack || {}, dl = $("press-dl");
   if (PP.zip) dl.appendChild(el("a", { href: PP.zip, download: "", class: "btn btn--solid" }, ["download press pack (.zip)"]));
+  var navSheet = $("nav-sheet");   // the "press sheet" link in the top menu
+  if (navSheet) { if (PP.sheet) navSheet.href = PP.sheet; else navSheet.parentNode.remove(); }
   if (PP.sheet) dl.appendChild(el("a", { href: PP.sheet, download: "", class: "btn btn--ghost" }, ["press sheet (pdf)"]));
   else if (TODO) dl.appendChild(todo("press sheet PDF", true));
 
