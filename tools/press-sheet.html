@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dan Crane: press sheet</title>
+<!-- One-page A4 press sheet. Text comes from content.js.
+     Rebuild the PDF with:  node tools/make-press-sheet.js -->
+<style>
+  @font-face { font-family: "Jost"; font-weight: 400 500;
+    src: url("../assets/fonts/jost-latin.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  @font-face { font-family: "Jost"; font-weight: 400 500;
+    src: url("../assets/fonts/jost-latin-ext.woff2") format("woff2");
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+  @page { size: A4; margin: 0; }
+  :root { --paper: #e8e2d8; --ink: #231a15; --muted: #5f554d; --brick: #8a5240; --rule: rgba(35,26,21,.22); }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); font: 400 9.2pt/1.45 "Jost", sans-serif;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  a { color: inherit; text-decoration: none; }
+  p { margin: 0 0 2.2mm; }
+  .page { width: 210mm; height: 297mm; padding: 12mm 14mm 9mm; display: flex; flex-direction: column; gap: 4.5mm; overflow: hidden; }
+
+  .top { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--rule); padding-bottom: 3.5mm; }
+  .top img { width: 30mm; }
+  .label { font-weight: 500; font-size: 7.5pt; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+  .hero { display: grid; grid-template-columns: 52mm 1fr; gap: 7mm; align-items: start; }
+  .new { background: var(--brick); color: var(--paper); padding: 4mm; }
+  .new .cover { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+  .new .title { width: 100%; margin: 3.5mm 0 2mm; display: block; }
+  .new .label { color: var(--paper); opacity: .85; }
+  .new .date { font-weight: 500; font-size: 8.4pt; margin: 0; }
+  .lede { font-size: 13pt; line-height: 1.32; margin: 0 0 3.5mm; }
+  .bio p { color: var(--ink); }
+
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 2.8mm 0; }
+  .facts b { display: block; font-weight: 500; font-size: 13pt; line-height: 1.1; color: var(--brick); }
+  .facts span { font-size: 7.6pt; color: var(--muted); line-height: 1.3; display: block; margin-top: 1mm; }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; flex: 1; min-height: 0; }
+  h2 { font-weight: 500; font-size: 7.5pt; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 2.5mm; }
+  section + section { margin-top: 4mm; }
+  .albums { display: grid; gap: 2.2mm; }
+  .album { display: grid; grid-template-columns: 10mm 1fr; gap: 3mm; align-items: center; }
+  .album img { width: 10mm; height: 10mm; object-fit: cover; display: block; }
+  .album b { font-weight: 500; }
+  .album span { display: block; color: var(--muted); font-size: 8pt; line-height: 1.3; }
+  .quote { margin: 0 0 1.8mm; }
+  .quote q { font-size: 9pt; }
+  .quote span { display: block; color: var(--muted); font-size: 7.6pt; line-height: 1.3; }
+  .fresh { color: var(--muted); font-size: 8.2pt; margin: 0; }
+  .photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5mm; }
+  .photos img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; filter: grayscale(1); }
+  .credit { font-size: 7pt; color: var(--muted); margin-top: 1.5mm; }
+
+  .contact { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8mm; border-top: 1px solid var(--ink); padding-top: 3.5mm; }
+  .contact b { font-weight: 500; font-size: 11pt; display: block; }
+  .contact a:hover { color: var(--brick); }
+  .links { font-size: 8.2pt; color: var(--muted); }
+  .links a { color: var(--ink); }
+</style>
+<script src="../content.js"></script>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <img src="../assets/brand/logo.svg" alt="dan crane.">
+    <div class="label" id="updated">press sheet</div>
+  </header>
+
+  <div class="hero">
+    <div class="new">
+      <img class="cover" id="cover" alt="">
+      <img class="title" src="../assets/brand/stay-home-title-light.svg" alt="stay home.">
+      <div class="label">new album</div>
+      <p class="date" id="date"></p>
+    </div>
+    <div>
+      <p class="lede" id="lede"></p>
+      <div class="bio" id="bio"></div>
+    </div>
+  </div>
+
+  <div class="facts" id="facts"></div>
+
+  <div class="cols">
+    <div>
+      <section><h2>as massive cranes</h2><div class="albums" id="albums"></div></section>
+      <section><h2>photos</h2><div class="photos" id="photos"></div><div class="credit" id="credit"></div></section>
+    </div>
+    <div>
+      <section><h2>press</h2><div id="press"></div></section>
+      <section><h2>as dan fresh</h2><p class="fresh" id="fresh"></p></section>
+    </div>
+  </div>
+
+  <footer class="contact">
+    <div>
+      <div class="label" id="blurb"></div>
+      <b><a id="email"></a></b>
+      <div class="links"><a id="ig"></a> · <a id="epk" href="https://dancrane78.github.io/epk/">dancrane78.github.io/epk</a> (music, hi-res photos, press pack)</div>
+    </div>
+    <div class="links" id="profiles"></div>
+  </footer>
+</div>
+
+<script>
+  var C = window.EPK, $ = function (id) { return document.getElementById(id); };
+  function el(tag, attrs, kids) {
+    var n = document.createElement(tag);
+    for (var k in attrs || {}) n.setAttribute(k, attrs[k]);
+    (kids || []).forEach(function (c) { n.append(c); });
+    return n;
+  }
+  var R = C.release;
+  $("updated").textContent = "press sheet · " + C.updated.replace(/^updated /, "");
+  $("cover").src = "../" + R.cover;
+  $("date").textContent = "out " + R.dateLong + " · lead single “" + R.single + "”";
+  $("lede").textContent = C.lede;
+  // Short bio, then the Eno paragraph, which says what the music is for.
+  [C.bioShort, C.bioLong[3]].forEach(function (t) { $("bio").append(el("p", {}, [t])); });
+
+  C.facts.forEach(function (f) { $("facts").append(el("div", {}, [el("b", {}, [f.big]), el("span", {}, [f.small])])); });
+
+  C.albums.forEach(function (a) {
+    var meta = a.meta.split(" · ").slice(0, 3).join(" · ");
+    var kids = [el("b", {}, [a.title]), a.with ? " " + a.with : "", el("span", {}, [meta])];
+    var row = el("div", { class: "album" }, [
+      a.cover ? el("img", { src: "../" + a.cover, alt: "" }) : el("div", {}),
+      el("div", {}, kids)
+    ]);
+    $("albums").append(row);
+  });
+  $("fresh").textContent = C.bioHistory.replace(/^Every long partnership[^.]*\.\s*/, "");
+
+  C.press.forEach(function (p) {
+    // Paraphrased lines are reported speech, so they read "Outlet called…" with no quote marks.
+    var line = p.paraphrased
+      ? el("div", {}, [el("a", { href: p.url }, [p.outlet + " " + (p.text.charAt(0).toLowerCase() + p.text.slice(1)).replace(/"([^"]+)"/g, "“$1”")])])
+      : el("div", {}, [el("a", { href: p.url }, [el("q", {}, [p.text.replace(/'([^']+)'/g, "‘$1’")])])]);
+    var who = el("span", {}, [p.paraphrased ? p.kind : p.outlet + ", " + p.kind]);
+    $("press").append(el("div", { class: "quote" }, [line, who]));
+  });
+
+  C.photos.slice(0, 3).forEach(function (ph) { $("photos").append(el("img", { src: "../" + ph.src, alt: ph.alt })); });
+  if (C.photosCredit && C.photosCredit.name) $("credit").textContent = "Photos: " + C.photosCredit.name + ". Hi-res and colour versions on request.";
+
+  $("blurb").textContent = C.contact.blurb;
+  $("email").textContent = C.contact.email; $("email").href = "mailto:" + C.contact.email;
+  $("ig").textContent = "instagram @" + C.contact.instagram; $("ig").href = "https://instagram.com/" + C.contact.instagram;
+  C.profiles.forEach(function (p, i) {
+    if (i) $("profiles").append(" · ");
+    $("profiles").append(el("a", { href: p.url }, [p.name]));
+  });
+</script>
+</body>
+</html>

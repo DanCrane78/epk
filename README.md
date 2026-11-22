@@ -19,14 +19,15 @@ One-page press kit for **stay home.** (out 2.2.27). Plain HTML, CSS and a little
 | "stay home." cover | `assets/cover/stay-home.jpg` |
 | Press and live photos (each one downloads when clicked) | `assets/photos/` |
 | Album and single artwork | `assets/releases/` |
-| Press sheet | `assets/press/dan-crane-press-sheet.pdf` (and set `pressPack.sheet` in `content.js`) |
+| Press sheet (one-page A4 PDF, built from `content.js`) | `assets/press/dan-crane-press-sheet.pdf` |
 
 To add a photo: drop it in `assets/photos/` and add a line for it in `content.js` (`photos` or `livePhotos`).
 
-After changing photos, the cover or the bio, rebuild the downloads:
+After changing photos, the cover, the bio or the press quotes, rebuild the downloads:
 
 ```bash
-bash tools/make-press-pack.sh     # rebuilds the press-pack zip
+node tools/make-press-sheet.js    # rebuilds the one-page press sheet PDF (needs Playwright)
+bash tools/make-press-pack.sh     # rebuilds the press-pack zip (includes the PDF, so run it second)
 node tools/make-og-image.js       # rebuilds the share-preview image (needs Playwright)
 ```
 
