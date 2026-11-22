@@ -114,6 +114,12 @@
     ]), p.caption ? el("p", { class: "soft caption", text: p.caption }) : null]);
   }
   each(C.photos, function (p) { $("gallery").appendChild(dlTile(p)); });
+  var PC = C.photosCredit || {}, pc = $("photo-credit");
+  if (PC.name) {
+    pc.appendChild(document.createTextNode("Photos: "));
+    if (PC.instagram) pc.appendChild(link("https://www.instagram.com/" + PC.instagram.replace(/^@/, "") + "/", PC.name + " (Instagram @" + PC.instagram.replace(/^@/, "") + ")"));
+    else pc.appendChild(document.createTextNode(PC.name));
+  } else pc.remove();
   var PP = C.pressPack || {}, dl = $("press-dl");
   if (PP.zip) dl.appendChild(el("a", { href: PP.zip, download: "", class: "btn btn--solid" }, ["download press pack (.zip)"]));
   if (PP.sheet) dl.appendChild(el("a", { href: PP.sheet, download: "", class: "btn btn--ghost" }, ["press sheet (pdf)"]));

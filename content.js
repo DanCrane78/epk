@@ -22,7 +22,7 @@ window.EPK = {
   showTodos: false,
 
   artist: "Dan Crane",
-  lede: "Songwriter and rapper from West London, making slow, spoken, ambient hip hop. Four albums as Massive Cranes; a new one under his own name in February.",
+  lede: "For twenty years, on and off, a rapper from the South of England has been making records with the same producer in Łódź. Somewhere along the way, the records got quieter. That turned out to be the point.",
   updated: "updated 22 november 2026",
 
   // ── HERO ─────────────────────────────────────────────────────
@@ -49,36 +49,28 @@ window.EPK = {
   listen: [
     // When "oh well." is out, add it back as the first line:
     // { title: "oh well.", note: "lead single from stay home. · out 2.2.27", spotify: "PASTE LINK" },
-    { title: "Music To Sit Down To", note: "2026 · 10 tracks · written and made alone", spotify: "https://open.spotify.com/album/5yabsI251rLdfxGSslpkOB" },
-    { title: "the full catalogue", note: "four albums, the Kensal Green EP and the singles", spotify: "https://open.spotify.com/artist/31H2LvdE3eArkCFj9dWu1Y" },
+    { title: "Music To Sit Down To", note: "2026 · ten tracks, one instruction on the cover", spotify: "https://open.spotify.com/album/5yabsI251rLdfxGSslpkOB" },
+    { title: "the full catalogue", note: "four albums in three years, plus the Kensal Green EP and the singles", spotify: "https://open.spotify.com/artist/31H2LvdE3eArkCFj9dWu1Y" },
   ],
   privateLink: {
     label: "stay home.: private stream",
-    note: "Unreleased. For labels and press only, please don't share.",
+    note: "Unreleased. It's meant for labels and press, and it works best if you sit down first. Please don't share.",
     url: "https://on.soundcloud.com/HRJBfDT22X4lh7DVgM",
   },
   buy: { label: "buy vinyl and cd on elasticStage", url: "https://elasticstage.com/carnival" },
 
   // ── BIO ──────────────────────────────────────────────────────
-  bioShort:
-    "Dan Crane is a West London songwriter and rapper. As Massive Cranes he made four albums in three years: " +
-    "Monuments (2024) with the Polish producer O.S.T.R and pianist Helen Fisher, Carnival (2025) with O.S.T.R, " +
-    "Fallen (2025) with Observer, and Music To Sit Down To (2026), written and made alone. " +
-    "His new album, stay home., is out on 2 February 2027.",
+  bioShort: "Dan Crane is a songwriter and rapper from the South of England, and the interesting thing about him is not how loud he got but how quiet. As Massive Cranes he made four albums in three years, with O.S.T.R, Helen Fisher and Observer, and finally alone. His new album, stay home., is out on 2 February 2027.",
 
   bioLong: [
-    "In 1978, Brian Eno wrote that ambient music should be \"as ignorable as it is interesting.\" It sounds like a contradiction. It is, in fact, a job description.",
-    "Most music competes for your attention. It wants to be heard. But there is a second kind of music, and it does something stranger: it waits for you to arrive. It is made not for the moment you start listening, but for the moment you stop doing everything else.",
-    "Consider the act of sitting down. Not collapsing, not resting, but the small, deliberate decision to stop. The coat stays on. The kettle is still warm. The bus hasn't come yet. These are the least dramatic moments of a day, and they are, for most of us, the only ones that belong to us entirely.",
-    "Dan Crane noticed them. Across four albums, with the Łódź producer O.S.T.R, the pianist Helen Fisher and Observer, he has been building a soundtrack for the in-between: slow, spoken hip hop with room left in it. Music To Sit Down To is the purest statement of the idea. Ten tracks with a single instruction on the cover.",
-    "Here's the thing. We assume the most important music is the music we notice. But the music we live with is the music that lets us notice everything else.",
-    "Dan Crane doesn't make music that demands to be heard. He makes it for the moment you finally sit down.",
+    "In 2004, a young London group called Skill Mega put out a twelve-inch record with a producer from Łódź. It had three songs on it. It was called Bitter Blocker, and almost nobody remembers it. But it may be the most important record in this story, for a simple reason: the rapper and the producer never really stopped.",
+    "We like to tell musical careers as a string of breakthroughs. The big single. The big year. Dan Crane's career doesn't look like that. It looks like a conversation that has been going on for twenty years. As Dan Fresh he rapped in Brighton's Lost Souls, then in Skill Mega, the London group he co-founded with Reps, DJ Rod Dixon and O.S.T.R., one of Poland's best-known rappers and producers. There was an EP, two albums, and guest verses on three O.S.T.R. records.",
+    "Then something unexpected happened. He slowed down. As Massive Cranes (a name that came from his young son) he made four albums in three years: Monuments with O.S.T.R and the pianist Helen Fisher, Carnival with O.S.T.R, Fallen with his old Lost Souls friend Observer, and Music To Sit Down To, which he made entirely alone.",
+    "In 1978, Brian Eno wrote that ambient music should be “as ignorable as it is interesting.” It sounds like a contradiction. It is, in fact, a job description. Most music competes for your attention. Dan Crane's waits for you. It is made for the least dramatic moments of a day: the coat still on, the kettle still warm, the bus not here yet. Those moments, it turns out, are the ones that belong to us entirely.",
+    "Here's the thing. We assume the most important music is the music we notice. But the music we live with is the music that lets us notice everything else. His new album, stay home., is out on 2 February 2027. It is the first under his own name.",
   ],
 
-  bioHistory:
-    "Before Massive Cranes, Dan rapped as Dan Fresh: first in Brighton's Lost Souls, then in Skill Mega, the London " +
-    "group he co-founded in 2004 with Reps, DJ Rod Dixon and O.S.T.R. That run produced an EP, two albums and guest " +
-    "verses on three O.S.T.R. records. The name Massive Cranes came from Dan's young son.",
+  bioHistory: "Every long partnership has an origin story, and this one is unglamorous. Before Massive Cranes, Dan rapped as Dan Fresh: first in Brighton's Lost Souls, then in Skill Mega, the London group he co-founded in 2004 with Reps, DJ Rod Dixon and O.S.T.R. The run produced an EP, two albums and guest verses on three O.S.T.R. records. It was a long apprenticeship, though nobody called it that at the time.",
 
   // ── ALBUMS AND EPS ───────────────────────────────────────────
   // tracks: ["name", "length"]
@@ -156,7 +148,7 @@ window.EPK = {
   ],
 
   // ── AS DAN FRESH ─────────────────────────────────────────────
-  freshIntro: "Twenty years on record. The O.S.T.R. partnership behind Massive Cranes started here.",
+  freshIntro: "Most of the records below were made in the 2000s, between London and Łódź, by people who had no idea they were laying the foundations for something twenty years later. That is usually how foundations get laid.",
   fresh: [
     { release: "Skill Mega · Skill Mega (Flash Fry Records)", year: "2012", part: "Main vocals with Reps on all 12 tracks; produced by O.S.T.R. Guests include Mr J (\"Tony Heart\", \"Family\") and O.S.T.R. (\"Take Me In Your Arms\")" },
     { release: "Ja tu tylko sprzątam · O.S.T.R. (Asfalt Records)", year: "2008", part: "Guest verse on \"Jestem tylko dzieckiem\", with El Da Sensei" },
@@ -169,10 +161,10 @@ window.EPK = {
 
   // ── COLLABORATORS ────────────────────────────────────────────
   collaborators: [
-    { name: "O.S.T.R", text: "Adam Ostrowski, Łódź. One of Poland's best-known rappers and producers. Co-founded the project with Dan; composer on Monuments and Carnival." },
-    { name: "Helen Fisher", text: "Pianist and vocalist. Co-writer and co-composer across Monuments, including \"The Beginning\" and \"At Sea\"." },
-    { name: "Observer", text: "Mr J (Joe Clark) of Brighton's Lost Souls, Dan's old crew. Co-artist on Fallen (2025) and co-writer of \"Gordons Alive\"; also a guest on Skill Mega's \"Tony Heart\" and \"Family\"." },
-    { name: "Lady Paradox", text: "Rebekah Watson. Leicester rapper and lyricist known for introspective, jazz-tinged UK hip hop. Featured on and co-wrote \"Bindweeds\" (2026)." },
+    { name: "O.S.T.R", text: "Adam Ostrowski, from Łódź, is one of Poland's best-known rappers and producers. He first produced for Dan in 2004, on a three-song twelve-inch. Ask why an English rapper's closest collaborator lives in Poland and the answer is disarmingly simple: they started, and neither of them stopped. Composer on Monuments and Carnival." },
+    { name: "Helen Fisher", text: "Pianist and vocalist. On Monuments she is not an accompanist but a co-writer, including on “The Beginning” and “At Sea”. Live, she plays keys beside him in the London club shows." },
+    { name: "Observer", text: "Mr J (Joe Clark), from Brighton's Lost Souls: the crew Dan started out in, more than twenty years ago. Fallen (2025) is what happens when old friends come back to the same table. Co-writer of “Gordons Alive”; also a guest on Skill Mega's “Tony Heart” and “Family”." },
+    { name: "Lady Paradox", text: "Rebekah Watson, a Leicester rapper and lyricist known for introspective, jazz-tinged UK hip hop. On “Bindweeds” (2026), which she co-wrote, two writers who prize restraint meet in the middle." },
   ],
   collabPhotos: [
     { src: "assets/photos/with-ostr-2.jpg", alt: "Dan Crane and O.S.T.R. in a record shop covered in stickers", caption: "Dan and O.S.T.R." },
@@ -180,12 +172,10 @@ window.EPK = {
   ],
 
   // ── PHOTOS (press) ───────────────────────────────────────────
-  photosNote: "Black and white, toned to the stay home. palette. Click any photo to download it. Hi-res originals and colour versions on request.",
+  photosNote: "Black and white, toned to the stay home. palette. Notice what isn't here: no crowds, no stage lights, no props. Just a man standing still or sitting down, which is more or less what the music sounds like. Click any photo to download it. Hi-res originals and colour versions on request.",
+  // Photographer credit for the press photos (Instagram handle without the @).
+  photosCredit: { name: "LifeMediaEnt", instagram: "lifemediaent" },
   photos: [
-    { src: "assets/photos/press-1.jpg", alt: "Dan Crane, toned portrait in a dark coat and scarf" },
-    { src: "assets/photos/press-2.jpg", alt: "Dan Crane, three-quarter portrait against a pale wall" },
-    { src: "assets/photos/press-3.jpg", alt: "Dan Crane, close portrait looking to one side" },
-    { src: "assets/photos/press-4.jpg", alt: "Dan Crane against corrugated metal" },
     { src: "assets/photos/press-5.jpg", alt: "Dan Crane on a terraced street, hand to chin" },
     { src: "assets/photos/press-6.jpg", alt: "Dan Crane standing in a back street" },
     { src: "assets/photos/press-7.jpg", alt: "Dan Crane by a hedge and lamppost" },
@@ -197,7 +187,7 @@ window.EPK = {
   },
 
   // ── LIVE ─────────────────────────────────────────────────────
-  liveText: "Club shows in London with Helen Fisher on keys, and on stage with O.S.T.R. in front of a full room. A launch show for stay home. is planned for February 2027.",
+  liveText: "Here's a puzzle. How does music made for sitting down work on a stage? Dan Crane has tested it in both kinds of room: London clubs with Helen Fisher on keys, and a big stage with O.S.T.R. in front of a full room. It turns out quiet travels further than you'd think. A launch show for stay home. is planned for February 2027.",
   liveVideo: { url: "", caption: "Dan Crane live" },   // TODO: YouTube or Vimeo link
   shows: [
     { date: "Feb 2027", venue: "stay home. launch show", city: "planned" },

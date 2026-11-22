@@ -159,6 +159,7 @@ main { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
 .dl:hover .dl__tag, .dl:focus-visible .dl__tag { opacity: 1; transform: none; }
 @media (hover: none) { .dl__tag { opacity: 1; transform: none; } }
 .caption { font-size: 13px; margin: 6px 0 0; }
+.credit-line { font-size: 14px; margin: 12px 0 0; }
 .press-dl { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; align-items: center; }
 
 /* Live */

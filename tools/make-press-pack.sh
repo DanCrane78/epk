@@ -14,6 +14,9 @@ cp assets/press/*.pdf "$pack/" 2>/dev/null || true
 node -e '
   global.window = {}; require("./content.js"); const C = window.EPK;
   const txt = [C.artist, C.lede, "", "SHORT BIO", C.bioShort, "", "LONG BIO", C.bioLong.join("\n\n"), "", "HISTORY", C.bioHistory].join("\n");
-  require("fs").writeFileSync(process.argv[1], txt + "\n");' "$pack/bio.txt"
+  require("fs").writeFileSync(process.argv[1], txt + "\n");
+  const pc = C.photosCredit || {};
+  if (pc.name) require("fs").writeFileSync(require("path").join(require("path").dirname(process.argv[1]), "photos", "CREDITS.txt"),
+    "Press photos (press-5 to press-8): " + pc.name + (pc.instagram ? " (instagram.com/" + pc.instagram + ")" : "") + "\nPlease credit the photographer when publishing.\n");' "$pack/bio.txt"
 rm -f "$out"; (cd "$tmp" && zip -rq -X - "Dan Crane - press pack") > "$out"
 rm -rf "$tmp"; echo "Wrote $out ($(du -h "$out" | cut -f1))"
