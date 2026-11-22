@@ -56,7 +56,7 @@ window.EPK = {
   privateLink: {
     label: "stay home.: private stream",
     note: "Unreleased. For labels and press only, please don't share.",
-    url: "",                         // TODO: private SoundCloud / Bandcamp link
+    url: "https://on.soundcloud.com/HRJBfDT22X4lh7DVgM",
   },
   buy: { label: "buy vinyl and cd on elasticStage", url: "https://elasticstage.com/carnival" },
 
