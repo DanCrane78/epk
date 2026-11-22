@@ -22,7 +22,7 @@ window.EPK = {
   showTodos: false,
 
   artist: "Dan Crane",
-  lede: "For twenty years, on and off, a rapper from West London has been making records with the same producer in Łódź. Somewhere along the way, the records got quieter. That turned out to be the point.",
+  lede: "For twenty years, on and off, a rapper from the south of England has been making records with the same producer in Łódź. Somewhere along the way, the records got quieter. That turned out to be the point.",
   updated: "updated 22 november 2026",
 
   // ── HERO ─────────────────────────────────────────────────────
@@ -60,7 +60,7 @@ window.EPK = {
   buy: { label: "buy vinyl and cd on elasticStage", url: "https://elasticstage.com/carnival" },
 
   // ── BIO ──────────────────────────────────────────────────────
-  bioShort: "Dan Crane is a West London songwriter and rapper, and the interesting thing about him is not how loud he got but how quiet. As Massive Cranes he made four albums in three years, with O.S.T.R, Helen Fisher and Observer, and finally alone. His new album, stay home., is out on 2 February 2027.",
+  bioShort: "Dan Crane is a songwriter and rapper from the south of England, and the interesting thing about him is not how loud he got but how quiet. As Massive Cranes he made four albums in three years, with O.S.T.R, Helen Fisher and Observer, and finally alone. His new album, stay home., is out on 2 February 2027.",
 
   bioLong: [
     "In 2004, a young London group called Skill Mega put out a twelve-inch record with a producer from Łódź. It had three songs on it. It was called Bitter Blocker, and almost nobody remembers it. But it may be the most important record in this story, for a simple reason: the rapper and the producer never really stopped.",
@@ -161,7 +161,7 @@ window.EPK = {
 
   // ── COLLABORATORS ────────────────────────────────────────────
   collaborators: [
-    { name: "O.S.T.R", text: "Adam Ostrowski, from Łódź, is one of Poland's best-known rappers and producers. He first produced for Dan in 2004, on a three-song twelve-inch. Ask why a London rapper's closest collaborator lives in Poland and the answer is disarmingly simple: they started, and neither of them stopped. Composer on Monuments and Carnival." },
+    { name: "O.S.T.R", text: "Adam Ostrowski, from Łódź, is one of Poland's best-known rappers and producers. He first produced for Dan in 2004, on a three-song twelve-inch. Ask why an English rapper's closest collaborator lives in Poland and the answer is disarmingly simple: they started, and neither of them stopped. Composer on Monuments and Carnival." },
     { name: "Helen Fisher", text: "Pianist and vocalist. On Monuments she is not an accompanist but a co-writer, including on “The Beginning” and “At Sea”. Live, she plays keys beside him in the London club shows." },
     { name: "Observer", text: "Mr J (Joe Clark), from Brighton's Lost Souls: the crew Dan started out in, more than twenty years ago. Fallen (2025) is what happens when old friends come back to the same table. Co-writer of “Gordons Alive”; also a guest on Skill Mega's “Tony Heart” and “Family”." },
     { name: "Lady Paradox", text: "Rebekah Watson, a Leicester rapper and lyricist known for introspective, jazz-tinged UK hip hop. On “Bindweeds” (2026), which she co-wrote, two writers who prize restraint meet in the middle." },
