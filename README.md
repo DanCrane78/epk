@@ -37,10 +37,10 @@ python3 -m http.server 8000
 
 ## Deploy free on GitHub Pages
 
-1. **Get the files onto `main`.** On github.com/dancrane78/dans-box, open a pull request from `claude/dan-crane-epk-website-w39r53` into `main` and merge it. (The repo is new, so if there's no `main` yet, go to **Settings → Branches**, set the default branch to `claude/dan-crane-epk-website-w39r53`, and use that branch in step 3 instead.)
+1. **Get the files onto `main`.** On github.com/dancrane78/epk, open a pull request from `claude/dan-crane-epk-website-w39r53` into `main` and merge it. (The repo is new, so if there's no `main` yet, go to **Settings → Branches**, set the default branch to `claude/dan-crane-epk-website-w39r53`, and use that branch in step 3 instead.)
 2. Make sure the repo is **public**. GitHub Pages is free only for public repos on a free account.
 3. Go to **Settings → Pages**. Under **Build and deployment**, choose **Source: Deploy from a branch**, **Branch: `main`**, folder **`/ (root)`**, then **Save**.
-4. Wait a minute or two, then refresh that page. It shows the live address: **https://dancrane78.github.io/dans-box/**
+4. Wait a minute or two, then refresh that page. It shows the live address: **https://dancrane78.github.io/epk/**
 5. Check the share preview by pasting the address into https://www.opengraph.xyz.
 
 From then on, every change you commit to `main` (including editing `content.js` in GitHub's web editor) goes live within a minute or two.
@@ -52,4 +52,4 @@ To use your own domain, e.g. `epk.massivecranes.com`:
 1. In **Settings → Pages → Custom domain**, enter the domain and save.
 2. At your domain registrar, add a `CNAME` record: `epk` → `dancrane78.github.io`.
 3. Once it resolves, tick **Enforce HTTPS**.
-4. Update the five `https://dancrane78.github.io/dans-box/` addresses at the top of `index.html` to the new domain.
+4. Update the four `https://dancrane78.github.io/epk/` addresses at the top of `index.html` to the new domain.
