@@ -85,7 +85,7 @@ main { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
 
 /* Listen */
 .listen { display: grid; gap: 32px; }
-@media (min-width: 900px) { .listen { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .listen { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); } }
 .track__title { font-size: 22px; }
 .track__note { font-size: 14px; margin: 2px 0 14px; min-height: 2.6em; }
 .track__player { width: 100%; border: 0; border-radius: 12px; display: block; background: var(--ink); }
