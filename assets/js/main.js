@@ -134,18 +134,34 @@
     if (v) return { src: "https://player.vimeo.com/video/" + v[1] + "?autoplay=1&dnt=1", thumb: null };
     return null;
   }
-  var vs = videoSrc(V.url);
-  if (vs) {
-    var btn = el("button", { type: "button", class: "video", "aria-label": "Play video: " + (V.caption || "live") }, [
-      el("img", { src: vs.thumb || ((C.livePhotos || [])[0] || {}).src, alt: "", loading: "lazy" }),
+  function player(vs, caption, poster, posterFirst) {
+    var btn = el("button", { type: "button", class: "video", "aria-label": "Play video: " + caption }, [
+      el("img", { src: (posterFirst && poster) || vs.thumb || poster, alt: "", loading: "lazy" }),
       el("span", { class: "video__play", "aria-hidden": "true", text: "▶" })
     ]);
     btn.addEventListener("click", function () {
-      var f = el("iframe", { src: vs.src, title: V.caption || "Live video", allow: "autoplay; fullscreen; picture-in-picture", allowfullscreen: "" });
-      var wrap = el("div", { class: "video video--on" }, [f]);
-      btn.replaceWith(wrap); f.focus();
+      var f = el("iframe", { src: vs.src, title: caption, allow: "autoplay; fullscreen; picture-in-picture", allowfullscreen: "" });
+      btn.replaceWith(el("div", { class: "video video--on" }, [f])); f.focus();
     });
-    $("video").appendChild(btn);
+    return btn;
+  }
+
+  // ── Videos section
+  var shownVideos = 0;
+  each(C.videos, function (v) {
+    var vsrc = videoSrc(v.url);
+    if (!vsrc && !TODO) return;
+    shownVideos++;
+    $("video-list").appendChild(el("figure", { class: "vid" }, [
+      vsrc ? player(vsrc, v.title, v.poster, true) : todo("YouTube link for " + v.title),
+      el("figcaption", {}, [el("b", { text: v.title }), el("span", { class: "soft", text: " " + (v.note || "") })])
+    ]));
+  });
+  if (!shownVideos) { $("videos").remove(); var nv = document.querySelector('a[href="#videos"]'); if (nv) nv.parentNode.remove(); }
+
+  var vs = videoSrc(V.url);
+  if (vs) {
+    $("video").appendChild(player(vs, V.caption || "Live video", ((C.livePhotos || [])[0] || {}).src));
   } else if (TODO) {
     var t = todo("live video link (YouTube or Vimeo)"); t.classList.add("todo--video"); $("video").appendChild(t);
   } else {
