@@ -155,7 +155,7 @@
   each(C.press, function (q) {
     var src = q.url ? link(q.url, q.outlet) : q.outlet;
     $("quotes").appendChild(el("figure", { class: "quote" }, [
-      el("blockquote", {}, [el("p", { text: q.text })]),
+      el("blockquote", {}, [el("p", { text: q.paraphrased ? q.text : "\u201c" + q.text + "\u201d" })]),
       el("figcaption", { class: "soft" }, [el("span", {}, [src, ", " + q.kind]), q.paraphrased && TODO ? el("span", { class: "draft", text: "paraphrased: swap in exact line" }) : null])
     ]));
   });

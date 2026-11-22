@@ -223,11 +223,13 @@ window.EPK = {
   // When you have the real line, put it in "text" and set paraphrased: false.
   press: [
     { text: "Called Monuments a poetic masterpiece.", outlet: "Illustrate Magazine", kind: "album review", url: "https://illustratemagazine.com/monuments-by-massive-cranes-album-review/", paraphrased: true },
+    { text: "'Girl and Clown' showcases Massive Cranes' minimalist direction", outlet: "The Real Ding", kind: "headline", url: "https://www.therealding.com/post/girl-and-clown-showcases-massive-cranes-minimalist-direction", paraphrased: false },
+    { text: "Massive Cranes release reflective new track 'Statues'", outlet: "The Indie Grid", kind: "headline", url: "https://theindiegrid.co.uk/latest-news/massive-cranes-release-reflective-new-track-statues/", paraphrased: false },
+    { text: "Massive Cranes\u2019 'Monuments': Journey Through Trip-Hop/Emo Rap Sound", outlet: "Dulaxi", kind: "headline", url: "https://dulaxi.com/massive-cranes-monuments-journey-through-trip-hop-emo-rap-sound/", paraphrased: false },
+    { text: "Massive Cranes continue new phase with 'Girl and Clown'", outlet: "Ignite Music Magazine", kind: "headline, May 2026", url: "https://www.ignitemusicmag.co/post/massive-cranes-continue-new-phase-with-girl-and-clown", paraphrased: false },
     { text: "Heard \"The Beginning\" as melancholy you can still move to.", outlet: "Bored City", kind: "single review", url: "https://boredcity.co/massive-cranes-the-beginning/", paraphrased: true },
-    { text: "Praised the restraint of \"Girl and Clown\", with the words left out in front.", outlet: "Ignite Music Magazine", kind: "May 2026", url: "", paraphrased: true },
-    { text: "Placed Monuments between spoken word, trip hop and electronica.", outlet: "Dulaxi", kind: "album feature", url: "", paraphrased: true },
   ],
-  pressAlso: "Also covered by The Indie Grid and The Real Ding (\"Statues\").",
+  pressAlso: "Also covered by The Real Ding (\"Statues\") and Little Chief Music (Monuments).",
   interviews: [
     { name: "The Other Side Reviews", url: "https://theothersidereviews.com/a-chat-with-massive-cranes-26-03-23/" },
     { name: "Bored City", url: "https://boredcity.co/conversation-with-massive-cranes/" },
@@ -237,7 +239,7 @@ window.EPK = {
   contact: {
     blurb: "Booking, press and label enquiries:",
     email: "dan@massivecranes.com",
-    instagram: "",                   // TODO: handle without the @
+    instagram: "massive_cranes",
   },
   profiles: [
     { name: "Spotify",     url: "https://open.spotify.com/artist/31H2LvdE3eArkCFj9dWu1Y" },
