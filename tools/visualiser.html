@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Track Visualiser</title>
+<!--
+  Dan Crane: track visualiser. Makes a video for a song, in the stay home. palette.
+  Open it through the local server (not by double-clicking), from the repo root:
+      python3 -m http.server 8000
+      then go to http://localhost:8000/tools/visualiser.html
+  Drop in an audio file, pick a shape and a look, press "record video".
+  Recording runs in real time, so a 3-minute song takes 3 minutes. Keep the tab in front while it runs.
+-->
+<style>
+  @font-face { font-family: "Jost"; font-weight: 400 500; src: url("../assets/fonts/jost-latin.woff2") format("woff2"); }
+  @font-face { font-family: "Jost"; font-weight: 400 500; src: url("../assets/fonts/jost-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+1E00-1E9F; }
+  :root { --paper: #e8e2d8; --ink: #231a15; --muted: #5f554d; --brick: #8a5240; --rule: rgba(35,26,21,.2); }
+  * { box-sizing: border-box; min-width: 0; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 400 15px/1.5 "Jost", system-ui, sans-serif; }
+  .wrap { display: grid; grid-template-columns: 320px 1fr; min-height: 100vh; }
+  @media (max-width: 860px) { .wrap { grid-template-columns: 1fr; } }
+  aside { padding: 24px 20px 40px; border-right: 1px solid var(--rule); display: grid; gap: 18px; align-content: start; }
+  @media (max-width: 860px) { aside { border-right: 0; border-bottom: 1px solid var(--rule); order: 2; } }
+  h1 { font-size: 22px; font-weight: 500; margin: 0; }
+  .soft { color: var(--muted); margin: 4px 0 0; font-size: 13px; }
+  label, .lbl { display: block; font-weight: 500; font-size: 12px; letter-spacing: .06em; color: var(--muted); margin-bottom: 6px; text-transform: lowercase; }
+  input[type=text], input[type=number] { width: 100%; font: inherit; color: inherit; background: transparent; border: 1px solid var(--rule); padding: 8px 10px; }
+  input:focus-visible, button:focus-visible { outline: 2px solid var(--brick); outline-offset: 2px; }
+  .seg { display: flex; flex-wrap: wrap; gap: 6px; }
+  .seg button { font: inherit; font-size: 14px; background: transparent; color: inherit; border: 1px solid var(--rule); padding: 6px 10px; cursor: pointer; min-height: 36px; }
+  .seg button[aria-pressed=true] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .drop { border: 1px dashed var(--muted); padding: 14px; text-align: center; cursor: pointer; font-size: 14px; }
+  .drop.over { background: rgba(138,82,64,.12); border-color: var(--brick); }
+  .drop b { font-weight: 500; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row { display: flex; gap: 8px; align-items: center; }
+  .check { display: flex; gap: 8px; align-items: center; font-size: 14px; cursor: pointer; }
+  .btn { font: 500 15px "Jost", sans-serif; border: 0; background: var(--brick); color: var(--paper); padding: 12px 16px; cursor: pointer; width: 100%; min-height: 44px; }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .btn--ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+  .stage { padding: 24px; display: grid; gap: 14px; align-content: start; justify-items: center; background: #d9d1c4; }
+  canvas { display: block; max-width: 100%; max-height: calc(100vh - 140px); width: auto; height: auto; box-shadow: 0 10px 40px rgba(35,26,21,.25); background: var(--ink); }
+  .transport { display: flex; gap: 10px; align-items: center; width: min(100%, 760px); }
+  .transport button { font: 500 14px "Jost", sans-serif; background: var(--ink); color: var(--paper); border: 0; padding: 8px 14px; min-height: 40px; cursor: pointer; }
+  .transport input[type=range] { flex: 1; accent-color: var(--brick); }
+  .time { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--muted); }
+  .status { font-size: 13px; color: var(--muted); min-height: 1.5em; margin: 0; }
+  .status.rec { color: var(--brick); font-weight: 500; }
+  a { color: var(--brick); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside>
+    <div>
+      <h1>track visualiser</h1>
+      <p class="soft">Free, no watermark. Drop in a song, choose a look, record a video.</p>
+    </div>
+
+    <div>
+      <span class="lbl">audio</span>
+      <div class="drop" id="dropAudio" tabindex="0" role="button">drop an mp3 / wav here, or click<b id="audioName"></b></div>
+      <input type="file" id="fileAudio" accept="audio/*" hidden>
+    </div>
+
+    <div>
+      <span class="lbl">artwork</span>
+      <div class="drop" id="dropImg" tabindex="0" role="button">drop a cover (default: stay home.)<b id="imgName"></b></div>
+      <input type="file" id="fileImg" accept="image/*" hidden>
+    </div>
+
+    <div>
+      <span class="lbl">look</span>
+      <div class="seg" id="styleSeg">
+        <button data-v="snow" aria-pressed="true">snow</button>
+        <button data-v="wire" aria-pressed="false">wire</button>
+        <button data-v="bars" aria-pressed="false">bars</button>
+      </div>
+    </div>
+
+    <div>
+      <span class="lbl">shape</span>
+      <div class="seg" id="fmtSeg">
+        <button data-v="1920x1080" aria-pressed="true" title="YouTube">16:9 youtube</button>
+        <button data-v="1080x1920" aria-pressed="false" title="Reels, TikTok, Shorts, Stories">9:16 reels</button>
+        <button data-v="1080x1080" aria-pressed="false">1:1 square</button>
+        <button data-v="1080x1350" aria-pressed="false">4:5 feed</button>
+      </div>
+    </div>
+
+    <div><label for="title">song title</label><input type="text" id="title" value="oh well."></div>
+    <div><label for="sub">small line</label><input type="text" id="sub" value="from stay home. · out 2.2.27"></div>
+
+    <div style="display:grid;gap:8px">
+      <label class="check"><input type="checkbox" id="useLogo" checked> drawn "dan crane." logo</label>
+      <label class="check"><input type="checkbox" id="showProgress" checked> progress line</label>
+    </div>
+
+    <div>
+      <span class="lbl">record</span>
+      <div class="row">
+        <input type="number" id="clipLen" min="0" step="1" value="0" style="width:90px" aria-label="clip length in seconds">
+        <span class="soft" style="margin:0">seconds from the playhead (0 = to the end)</span>
+      </div>
+    </div>
+
+    <button class="btn" id="recBtn" disabled>record video</button>
+    <p class="status" id="status">Add a song to start.</p>
+    <p class="soft">Recording runs in real time and needs this tab in front. Chrome and Safari save MP4; Firefox saves WebM (YouTube takes both; convert WebM for Instagram).</p>
+  </aside>
+
+  <section class="stage">
+    <canvas id="cv" width="1920" height="1080" aria-label="visualiser preview"></canvas>
+    <div class="transport">
+      <button id="playBtn" disabled>play</button>
+      <input type="range" id="seek" min="0" max="1000" value="0" disabled aria-label="position">
+      <span class="time" id="time">0:00 / 0:00</span>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var PAPER = "#e8e2d8", INK = "#231a15", BRICK = "#8a5240", MUTED = "#5f554d";
+  var cv = document.getElementById("cv"), ctx = cv.getContext("2d");
+  var $ = function (id) { return document.getElementById(id); };
+
+  var S = { style: "snow", W: 1920, H: 1080, img: null, bg: null, logoInk: null, logoPaper: null, logoRatio: 284 / 561 };
+  var audio = new Audio(); audio.preload = "auto";
+  var actx, analyser, srcNode, recDest, timeBuf, freqBuf;
+  var level = 0, bass = 0, bars = new Float32Array(48);
+
+  // ── Assets ──────────────────────────────────────────────────────
+  function loadImage(src) {
+    return new Promise(function (res, rej) { var i = new Image(); i.onload = function () { res(i); }; i.onerror = rej; i.src = src; });
+  }
+  function svgImage(text, colour) {
+    var blob = new Blob([text.replace(/#231a15/g, colour)], { type: "image/svg+xml" });
+    return loadImage(URL.createObjectURL(blob));
+  }
+  fetch("../assets/brand/logo.svg").then(function (r) { return r.text(); }).then(function (t) {
+    var vb = /viewBox="([^"]+)"/.exec(t); if (vb) { var p = vb[1].split(/\s+/).map(Number); S.logoRatio = p[3] / p[2]; }
+    return Promise.all([svgImage(t, INK), svgImage(t, PAPER)]);
+  }).then(function (l) { S.logoInk = l[0]; S.logoPaper = l[1]; }).catch(function () {});
+  loadImage("../assets/cover/stay-home.jpg").then(setImage).catch(function () {});
+  if (document.fonts) document.fonts.load('500 40px "Jost"');
+
+  function setImage(img) { S.img = img; buildBackground(); }
+
+  // Blurred, darkened full-frame copy of the cover for the snow look. Built once per image/shape.
+  function buildBackground() {
+    if (!S.img) { S.bg = null; return; }
+    var c = document.createElement("canvas"); c.width = S.W; c.height = S.H;
+    var g = c.getContext("2d"), m = Math.max(S.W, S.H) * 1.15;
+    g.filter = "blur(" + Math.round(m / 40) + "px) saturate(.8)";
+    g.drawImage(S.img, (S.W - m) / 2, (S.H - m) / 2, m, m);
+    g.filter = "none";
+    g.fillStyle = "rgba(20,14,11,.55)"; g.fillRect(0, 0, S.W, S.H);
+    S.bg = c;
+  }
+
+  // ── Layout ──────────────────────────────────────────────────────
+  function layout() {
+    var W = S.W, H = S.H, L = {};
+    if (W / H > 1.2) {               // landscape: cover left, words right
+      L.size = H * 0.56; L.cx = W * 0.13; L.cy = (H - L.size) / 2 - H * 0.04;
+      L.textX = L.cx + L.size + W * 0.05; L.textBottom = L.cy + L.size; L.align = "left";
+      L.logoW = W * 0.17; L.titleSize = H * 0.065; L.subSize = H * 0.026;
+      L.viz = { x: W * 0.06, y: H * 0.80, w: W * 0.88, h: H * 0.13 };
+    } else {                          // square, 4:5, 9:16: cover top, words under, visualiser below
+      var portrait = H / W > 1.5, tall = H / W > 1.1;
+      L.size = W * (portrait ? 0.72 : tall ? 0.56 : 0.46);
+      L.cx = (W - L.size) / 2; L.cy = H * (portrait ? 0.12 : 0.07);
+      L.textX = W / 2; L.align = "center";
+      L.logoW = W * (portrait ? 0.3 : 0.2); L.titleSize = W * (portrait ? 0.07 : 0.05); L.subSize = W * (portrait ? 0.03 : 0.025);
+      L.textTop = L.cy + L.size + W * 0.05;
+      var vy = L.textTop + blockHeight(L) + W * 0.06, bottom = H - W * 0.07;
+      L.viz = { x: W * 0.08, y: vy, w: W * 0.84, h: Math.min(H * 0.14, bottom - vy) };
+    }
+    return L;
+  }
+
+  function blockHeight(L) {
+    var useLogo = $("useLogo").checked && S.logoPaper, ts = L.titleSize, ss = L.subSize;
+    return (useLogo ? L.logoW * S.logoRatio : ts * 0.8) + ts * 0.55 + ts + ($("sub").value ? ss * 1.9 : 0);
+  }
+
+  // ── Audio analysis ──────────────────────────────────────────────
+  function ensureAudioGraph() {
+    if (actx) return;
+    actx = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = actx.createAnalyser(); analyser.fftSize = 2048; analyser.smoothingTimeConstant = 0.8;
+    srcNode = actx.createMediaElementSource(audio);
+    recDest = actx.createMediaStreamDestination();
+    srcNode.connect(analyser); analyser.connect(actx.destination); srcNode.connect(recDest);
+    timeBuf = new Float32Array(analyser.fftSize); freqBuf = new Uint8Array(analyser.frequencyBinCount);
+  }
+
+  function analyse() {
+    if (!analyser || audio.paused) {
+      level *= 0.94; bass *= 0.94; for (var k = 0; k < bars.length; k++) bars[k] *= 0.9;
+      if (timeBuf) timeBuf.fill(0);
+      return;
+    }
+    analyser.getFloatTimeDomainData(timeBuf); analyser.getByteFrequencyData(freqBuf);
+    var sum = 0; for (var i = 0; i < timeBuf.length; i++) sum += timeBuf[i] * timeBuf[i];
+    var rms = Math.min(1, Math.sqrt(sum / timeBuf.length) * 3.2);
+    level += (rms - level) * (rms > level ? 0.35 : 0.08);
+    var hz = actx.sampleRate / analyser.fftSize, b = 0, n = 0;
+    for (i = Math.floor(35 / hz); i < 160 / hz; i++) { b += freqBuf[i]; n++; }
+    b = n ? b / n / 255 : 0; b = Math.max(0, (b - 0.35) / 0.65);
+    bass += (b - bass) * (b > bass ? 0.4 : 0.1);
+    var lo = Math.log(45), hi = Math.log(14000);    // log-spaced bars, 45 Hz to 14 kHz
+    for (k = 0; k < bars.length; k++) {
+      var f0 = Math.exp(lo + (hi - lo) * k / bars.length), f1 = Math.exp(lo + (hi - lo) * (k + 1) / bars.length);
+      var a = Math.floor(f0 / hz), z = Math.max(a + 1, Math.floor(f1 / hz)), m = 0;
+      for (i = a; i < z && i < freqBuf.length; i++) m = Math.max(m, freqBuf[i]);
+      var v = Math.pow(m / 255, 1.6) * (0.8 + k / bars.length * 0.6);
+      bars[k] += (v - bars[k]) * (v > bars[k] ? 0.5 : 0.12);
+    }
+  }
+
+  // ── Drawing ─────────────────────────────────────────────────────
+  var flakes = [];
+  for (var f = 0; f < 420; f++) flakes.push({ x: Math.random(), y: Math.random(), z: 0.25 + Math.random() * 0.75, p: Math.random() * 6.28 });
+
+  function drawCover(L, t, shadow) {
+    var s = L.size * (1 + bass * 0.012), x = L.cx + (L.size - s) / 2, y = L.cy + (L.size - s) / 2;
+    ctx.save();
+    if (shadow) { ctx.shadowColor = "rgba(0,0,0,.45)"; ctx.shadowBlur = L.size * 0.08; ctx.shadowOffsetY = L.size * 0.025; }
+    if (S.img) ctx.drawImage(S.img, x, y, s, s); else { ctx.fillStyle = BRICK; ctx.fillRect(x, y, s, s); }
+    ctx.restore();
+  }
+
+  function drawWords(L, colour, logo) {
+    var title = $("title").value, sub = $("sub").value, useLogo = $("useLogo").checked && logo;
+    var lw = L.logoW, lh = lw * S.logoRatio, ts = L.titleSize, ss = L.subSize;
+    ctx.fillStyle = colour; ctx.textAlign = L.align; ctx.textBaseline = "alphabetic";
+    var gap1 = ts * 0.55, gap2 = ss * 0.9;
+    var y = L.textBottom != null ? L.textBottom - blockHeight(L) : L.textTop;
+    var x = L.textX;
+    if (useLogo) { ctx.drawImage(logo, L.align === "center" ? x - lw / 2 : x, y, lw, lh); y += lh + gap1; }
+    else { ctx.font = "500 " + ts * 0.8 + "px Jost, sans-serif"; ctx.fillText("dan crane.", x, y + ts * 0.8); y += ts * 0.8 + gap1; }
+    ctx.font = "500 " + ts + "px Jost, sans-serif"; ctx.fillText(title, x, y + ts * 0.8); y += ts;
+    if (sub) { ctx.globalAlpha = 0.72; ctx.font = "400 " + ss + "px Jost, sans-serif"; ctx.fillText(sub, x, y + gap2 + ss * 0.8); ctx.globalAlpha = 1; }
+  }
+
+  function drawProgress(colour) {
+    if (!$("showProgress").checked || !audio.duration) return;
+    var h = Math.max(3, S.H * 0.004);
+    ctx.fillStyle = colour; ctx.globalAlpha = 0.2; ctx.fillRect(0, S.H - h, S.W, h);
+    ctx.globalAlpha = 1; ctx.fillRect(0, S.H - h, S.W * audio.currentTime / audio.duration, h);
+  }
+
+  // Snow: the cover over its own blurred glow, snow that thickens and quickens with the song.
+  function drawSnow(L, t, dt) {
+    if (S.bg) {
+      var k = 1.04 + Math.sin(t / 23) * 0.02, w = S.W * k, h = S.H * k;
+      ctx.drawImage(S.bg, (S.W - w) / 2 + Math.sin(t / 31) * S.W * 0.01, (S.H - h) / 2, w, h);
+    } else { ctx.fillStyle = INK; ctx.fillRect(0, 0, S.W, S.H); }
+    drawCover(L, t, true);
+    drawWords(L, PAPER, S.logoPaper);
+    var u = Math.min(S.W, S.H), speed = 0.045 + level * 0.22;
+    ctx.fillStyle = "#fff";
+    for (var i = 0; i < flakes.length; i++) {
+      var fl = flakes[i];
+      fl.y += dt * speed * fl.z * (S.W / S.H > 1 ? 1 : 0.6);
+      fl.x += dt * 0.012 * Math.sin(t * 0.6 + fl.p) * fl.z;
+      if (fl.y > 1.02) { fl.y = -0.02; fl.x = Math.random(); }
+      if (fl.x < -0.02) fl.x = 1.02; if (fl.x > 1.02) fl.x = -0.02;
+      ctx.globalAlpha = (0.25 + 0.55 * fl.z) * (0.75 + level * 0.5);
+      var r = u * 0.0022 * (0.5 + fl.z * 1.4);
+      ctx.beginPath(); ctx.arc(fl.x * S.W, fl.y * S.H, r, 0, 6.283); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    drawProgress(PAPER);
+  }
+
+  // Wire: paper, the cover, and three power lines strung across. The middle one carries the song.
+  function drawWire(L, t) {
+    ctx.fillStyle = PAPER; ctx.fillRect(0, 0, S.W, S.H);
+    drawCover(L, t, false);
+    drawWords(L, INK, S.logoInk);
+    var V = L.viz, N = 240, u = Math.min(S.W, S.H);
+    for (var w = 0; w < 3; w++) {
+      var base = V.y + V.h * (0.2 + w * 0.3), sag = V.h * (0.18 + w * 0.04);
+      ctx.beginPath();
+      for (var i = 0; i <= N; i++) {
+        var p = i / N, x = V.x + V.w * p, y = base + sag * 4 * p * (1 - p);
+        if (w === 1 && timeBuf) {
+          var env = Math.sin(Math.PI * p), j = Math.floor(p * (timeBuf.length - 1));
+          var s = (timeBuf[j] + (timeBuf[j - 2] || 0) + (timeBuf[j + 2] || 0)) / 3;
+          y += s * V.h * 1.4 * env;
+        }
+        if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y);
+      }
+      ctx.strokeStyle = w === 1 ? INK : MUTED; ctx.globalAlpha = w === 1 ? 1 : 0.45;
+      ctx.lineWidth = u * (w === 1 ? 0.0034 : 0.0018); ctx.lineJoin = "round"; ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    // the two pylon ends
+    ctx.fillStyle = INK; var pw = u * 0.006;
+    ctx.fillRect(V.x - pw / 2, V.y, pw, V.h * 1.05); ctx.fillRect(V.x + V.w - pw / 2, V.y, pw, V.h * 1.05);
+    drawProgress(BRICK);
+  }
+
+  // Bars: dark room, a quiet spectrum under the cover, low notes on the left.
+  function drawBars(L, t) {
+    ctx.fillStyle = INK; ctx.fillRect(0, 0, S.W, S.H);
+    drawCover(L, t, false);
+    drawWords(L, PAPER, S.logoPaper);
+    var V = L.viz, n = bars.length, gap = V.w / n * 0.38, bw = V.w / n - gap, floor = Math.max(2, V.h * 0.025);
+    for (var i = 0; i < n; i++) {
+      var h = floor + bars[i] * (V.h - floor), x = V.x + i * (bw + gap) + gap / 2;
+      ctx.fillStyle = PAPER; ctx.globalAlpha = 0.85; ctx.fillRect(x, V.y + V.h - h, bw, h);
+      ctx.fillStyle = BRICK; ctx.globalAlpha = 1; ctx.fillRect(x, V.y + V.h - h, bw, Math.min(h, floor * 1.5));
+    }
+    ctx.globalAlpha = 1;
+    drawProgress(BRICK);
+  }
+
+  var last = performance.now();
+  function frame(now) {
+    var dt = Math.min(0.1, (now - last) / 1000); last = now;
+    var t = now / 1000, L = layout();
+    analyse();
+    if (S.style === "snow") drawSnow(L, t, dt); else if (S.style === "wire") drawWire(L, t); else drawBars(L, t);
+    updateTransport();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  // ── Controls ────────────────────────────────────────────────────
+  function seg(id, fn) {
+    var root = $(id);
+    root.addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b || recorder) return;
+      root.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+      fn(b.dataset.v);
+    });
+  }
+  seg("styleSeg", function (v) { S.style = v; });
+  seg("fmtSeg", function (v) { var p = v.split("x"); S.W = cv.width = +p[0]; S.H = cv.height = +p[1]; buildBackground(); });
+
+  function dropZone(zone, input, onFile) {
+    zone.addEventListener("click", function () { input.click(); });
+    zone.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); input.click(); } });
+    input.addEventListener("change", function () { if (input.files[0]) onFile(input.files[0]); });
+    zone.addEventListener("dragover", function (e) { e.preventDefault(); zone.classList.add("over"); });
+    zone.addEventListener("dragleave", function () { zone.classList.remove("over"); });
+    zone.addEventListener("drop", function (e) { e.preventDefault(); zone.classList.remove("over"); if (e.dataTransfer.files[0]) onFile(e.dataTransfer.files[0]); });
+  }
+  dropZone($("dropAudio"), $("fileAudio"), setAudio);
+  dropZone($("dropImg"), $("fileImg"), function (file) {
+    loadImage(URL.createObjectURL(file)).then(function (img) { setImage(img); $("imgName").textContent = file.name; });
+  });
+  // Dropping anywhere else on the page works too: audio or image, by type.
+  document.addEventListener("dragover", function (e) { e.preventDefault(); });
+  document.addEventListener("drop", function (e) {
+    if (e.target.closest(".drop")) return; e.preventDefault();
+    var file = e.dataTransfer.files[0]; if (!file) return;
+    if (/^audio\//.test(file.type)) setAudio(file);
+    else if (/^image\//.test(file.type)) loadImage(URL.createObjectURL(file)).then(function (img) { setImage(img); $("imgName").textContent = file.name; });
+  });
+
+  function setAudio(file) {
+    audio.pause(); audio.src = URL.createObjectURL(file);
+    $("audioName").textContent = file.name;
+    var guess = file.name.replace(/\.[^.]+$/, "").replace(/^\d+[\s._-]+/, "").replace(/[_-]+/g, " ").trim();
+    if (guess) $("title").value = guess.toLowerCase().replace(/\.?$/, ".");
+    audio.addEventListener("loadedmetadata", function () {
+      $("playBtn").disabled = $("seek").disabled = $("recBtn").disabled = false;
+      $("status").textContent = "Ready. Press play to preview, or record.";
+    }, { once: true });
+  }
+
+  $("playBtn").addEventListener("click", function () {
+    ensureAudioGraph(); actx.resume();
+    if (audio.paused) audio.play(); else audio.pause();
+  });
+  var seeking = false;
+  $("seek").addEventListener("input", function () { seeking = true; if (audio.duration) audio.currentTime = $("seek").value / 1000 * audio.duration; });
+  $("seek").addEventListener("change", function () { seeking = false; });
+
+  function fmt(s) { s = Math.max(0, Math.floor(s || 0)); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }
+  function updateTransport() {
+    $("playBtn").textContent = audio.paused ? "play" : "pause";
+    if (!seeking && audio.duration) $("seek").value = Math.round(audio.currentTime / audio.duration * 1000);
+    $("time").textContent = fmt(audio.currentTime) + " / " + fmt(audio.duration);
+    if (recorder) $("status").textContent = "● recording " + fmt(audio.currentTime - recStart) + (recEnd ? " / " + fmt(recEnd - recStart) : " / " + fmt(audio.duration - recStart)) + ". Keep this tab in front.";
+  }
+
+  // ── Recording ───────────────────────────────────────────────────
+  var recorder = null, chunks = [], recStart = 0, recEnd = 0, recTimer = null;
+  function pickType() {
+    // H.264 MP4 first (plays everywhere, Instagram takes it); then WebM; a bare "video/mp4" last,
+    // because some browsers put VP9 inside it, which QuickTime and Instagram won't open.
+    var types = ["video/mp4;codecs=avc1.640028,mp4a.40.2", "video/mp4;codecs=avc1.640028,opus", "video/mp4;codecs=avc1,mp4a", "video/mp4;codecs=avc1",
+                 "video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm", "video/mp4"];
+    for (var i = 0; i < types.length; i++) if (window.MediaRecorder && MediaRecorder.isTypeSupported(types[i])) return types[i];
+    return "";
+  }
+
+  $("recBtn").addEventListener("click", function () { if (recorder) stopRec(); else startRec(); });
+
+  function startRec() {
+    ensureAudioGraph(); actx.resume();
+    var type = pickType();
+    if (!type) { $("status").textContent = "This browser can't record video. Try Chrome."; return; }
+    var stream = cv.captureStream(30);
+    recDest.stream.getAudioTracks().forEach(function (tr) { stream.addTrack(tr); });
+    try {
+      recorder = new MediaRecorder(stream, { mimeType: type, videoBitsPerSecond: S.W * S.H > 2e6 ? 16e6 : 12e6, audioBitsPerSecond: 256000 });
+    } catch (e) {
+      $("status").textContent = "Couldn't start recording (" + e.message + "). Open this page through the local server, not as a file.";
+      recorder = null; return;
+    }
+    chunks = [];
+    recorder.ondataavailable = function (e) { if (e.data.size) chunks.push(e.data); };
+    recorder.onstop = function () {
+      var blob = new Blob(chunks, { type: type.split(";")[0] }), ext = /mp4/.test(type) ? "mp4" : "webm";
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = ("dan-crane-" + ($("title").value || "visualiser") + "-" + S.style + "-" + S.W + "x" + S.H).replace(/[^\w.-]+/g, "-").replace(/\.+(?=-)|-+$/g, "").replace(/-+/g, "-") + "." + ext;
+      document.body.appendChild(a); a.click(); a.remove();
+      $("status").classList.remove("rec");
+      $("status").textContent = "Saved " + a.download + " (" + (blob.size / 1e6).toFixed(1) + " MB). Check your downloads.";
+    };
+    var len = +$("clipLen").value || 0;
+    if (audio.ended || (audio.duration && audio.currentTime >= audio.duration - 0.5)) audio.currentTime = 0;
+    recStart = audio.currentTime; recEnd = len > 0 ? Math.min(audio.duration, recStart + len) : 0;
+    audio.pause();
+    recorder.start(1000);
+    audio.play();
+    $("recBtn").textContent = "stop and save";
+    $("status").classList.add("rec");
+    document.querySelectorAll(".seg button, #playBtn, #seek").forEach(function (b) { b.disabled = true; });
+    recTimer = setInterval(function () { if (recEnd && audio.currentTime >= recEnd) stopRec(); }, 100);
+    audio.addEventListener("ended", stopRec, { once: true });
+  }
+
+  function stopRec() {
+    if (!recorder) return;
+    clearInterval(recTimer); audio.removeEventListener("ended", stopRec);
+    audio.pause();
+    // a short tail so the last frame and the end of the audio are in the file
+    var r = recorder; recorder = null;
+    setTimeout(function () { r.stop(); }, 250);
+    $("recBtn").textContent = "record video";
+    $("status").textContent = "Saving…";
+    document.querySelectorAll(".seg button, #playBtn, #seek").forEach(function (b) { b.disabled = false; });
+  }
+})();
+</script>
+</body>
+</html>
