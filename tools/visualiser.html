@@ -82,10 +82,10 @@
     <div>
       <span class="lbl">shape</span>
       <div class="seg" id="fmtSeg">
-        <button data-v="1920x1080" aria-pressed="true" title="YouTube">16:9 youtube</button>
-        <button data-v="1080x1920" aria-pressed="false" title="Reels, TikTok, Shorts, Stories">9:16 reels</button>
+        <button data-v="1080x1920" aria-pressed="true" title="Instagram Reels and Stories (also TikTok, Shorts)">9:16 reel / story</button>
+        <button data-v="1080x1350" aria-pressed="false" title="Instagram feed post">4:5 feed post</button>
         <button data-v="1080x1080" aria-pressed="false">1:1 square</button>
-        <button data-v="1080x1350" aria-pressed="false">4:5 feed</button>
+        <button data-v="1920x1080" aria-pressed="false" title="YouTube">16:9 youtube</button>
       </div>
     </div>
 
@@ -94,24 +94,30 @@
 
     <div style="display:grid;gap:8px">
       <label class="check"><input type="checkbox" id="useLogo" checked> drawn "dan crane." logo</label>
-      <label class="check"><input type="checkbox" id="showProgress" checked> progress line</label>
+      <label class="check"><input type="checkbox" id="showProgress"> progress line</label>
+      <label class="check"><input type="checkbox" id="showSafe" checked> show where instagram covers it <span class="soft" style="margin:0">(preview only)</span></label>
     </div>
 
     <div>
-      <span class="lbl">record</span>
-      <div class="row">
-        <input type="number" id="clipLen" min="0" step="1" value="0" style="width:90px" aria-label="clip length in seconds">
-        <span class="soft" style="margin:0">seconds from the playhead (0 = to the end)</span>
+      <span class="lbl">clip length</span>
+      <div class="seg" id="clipSeg">
+        <button data-v="15" aria-pressed="false">15s</button>
+        <button data-v="30" aria-pressed="true">30s</button>
+        <button data-v="60" aria-pressed="false">60s</button>
+        <button data-v="90" aria-pressed="false">90s</button>
+        <button data-v="0" aria-pressed="false">whole song</button>
       </div>
+      <input type="hidden" id="clipLen" value="30">
+      <p class="soft">Starts from the play position, so scrub to the best bit (the chorus) first. Clips fade in and out.</p>
     </div>
 
     <button class="btn" id="recBtn" disabled>record video</button>
     <p class="status" id="status">Add a song to start.</p>
-    <p class="soft">Recording runs in real time and needs this tab in front. Chrome and Safari save MP4; Firefox saves WebM (YouTube takes both; convert WebM for Instagram).</p>
+    <p class="soft">Recording runs in real time and needs this tab in front. Use Chrome or Safari: they save the MP4 Instagram wants. Firefox saves WebM, which Instagram won't take. To post, AirDrop or email the MP4 to your phone and upload it as a Reel; add the song again in Instagram's music picker only if you want it searchable there.</p>
   </aside>
 
   <section class="stage">
-    <canvas id="cv" width="1920" height="1080" aria-label="visualiser preview"></canvas>
+    <canvas id="cv" width="1080" height="1920" aria-label="visualiser preview"></canvas>
     <div class="transport">
       <button id="playBtn" disabled>play</button>
       <input type="range" id="seek" min="0" max="1000" value="0" disabled aria-label="position">
@@ -127,9 +133,9 @@
   var cv = document.getElementById("cv"), ctx = cv.getContext("2d");
   var $ = function (id) { return document.getElementById(id); };
 
-  var S = { style: "snow", W: 1920, H: 1080, img: null, bg: null, logoInk: null, logoPaper: null, logoRatio: 284 / 561 };
+  var S = { style: "snow", W: 1080, H: 1920, img: null, bg: null, logoInk: null, logoPaper: null, logoRatio: 284 / 561 };
   var audio = new Audio(); audio.preload = "auto";
-  var actx, analyser, srcNode, recDest, timeBuf, freqBuf;
+  var actx, analyser, srcNode, recDest, gain, timeBuf, freqBuf;
   var level = 0, bass = 0, bars = new Float32Array(48);
 
   // ── Assets ──────────────────────────────────────────────────────
@@ -170,14 +176,16 @@
       L.logoW = W * 0.17; L.titleSize = H * 0.065; L.subSize = H * 0.026;
       L.viz = { x: W * 0.06, y: H * 0.80, w: W * 0.88, h: H * 0.13 };
     } else {                          // square, 4:5, 9:16: cover top, words under, visualiser below
+      // 9:16 keeps everything between Instagram's top bar (~220px) and its caption/buttons (~420px from the bottom)
       var portrait = H / W > 1.5, tall = H / W > 1.1;
-      L.size = W * (portrait ? 0.72 : tall ? 0.56 : 0.46);
-      L.cx = (W - L.size) / 2; L.cy = H * (portrait ? 0.12 : 0.07);
+      L.size = W * (portrait ? 0.6 : tall ? 0.56 : 0.46);
+      L.cx = (W - L.size) / 2; L.cy = portrait ? H * 0.13 : H * 0.07;
       L.textX = W / 2; L.align = "center";
-      L.logoW = W * (portrait ? 0.3 : 0.2); L.titleSize = W * (portrait ? 0.07 : 0.05); L.subSize = W * (portrait ? 0.03 : 0.025);
+      L.logoW = W * (portrait ? 0.26 : 0.2); L.titleSize = W * (portrait ? 0.065 : 0.05); L.subSize = W * (portrait ? 0.03 : 0.025);
       L.textTop = L.cy + L.size + W * 0.05;
-      var vy = L.textTop + blockHeight(L) + W * 0.06, bottom = H - W * 0.07;
-      L.viz = { x: W * 0.08, y: vy, w: W * 0.84, h: Math.min(H * 0.14, bottom - vy) };
+      var vy = L.textTop + blockHeight(L) + W * 0.06, bottom = portrait ? H * 0.78 : H - W * 0.07;
+      L.viz = portrait ? { x: W * 0.12, y: vy, w: W * 0.76, h: Math.min(H * 0.1, bottom - vy) }
+                       : { x: W * 0.08, y: vy, w: W * 0.84, h: Math.min(H * 0.14, bottom - vy) };
     }
     return L;
   }
@@ -194,7 +202,8 @@
     analyser = actx.createAnalyser(); analyser.fftSize = 2048; analyser.smoothingTimeConstant = 0.8;
     srcNode = actx.createMediaElementSource(audio);
     recDest = actx.createMediaStreamDestination();
-    srcNode.connect(analyser); analyser.connect(actx.destination); srcNode.connect(recDest);
+    gain = actx.createGain();
+    srcNode.connect(analyser); srcNode.connect(gain); gain.connect(actx.destination); gain.connect(recDest);
     timeBuf = new Float32Array(analyser.fftSize); freqBuf = new Uint8Array(analyser.frequencyBinCount);
   }
 
@@ -321,12 +330,46 @@
     drawProgress(BRICK);
   }
 
+  // Clips fade in from, and out to, the background colour (audio fades too, in startRec).
+  var FADE = 0.8;
+  function drawFade() {
+    if (!recorder) return;
+    var a = Math.max(0, 1 - (audio.currentTime - recStart) / FADE);
+    if (recEnd) a = Math.max(a, 1 - (recEnd - audio.currentTime) / FADE);
+    if (a <= 0) return;
+    ctx.globalAlpha = Math.min(1, a); ctx.fillStyle = S.style === "wire" ? PAPER : INK;
+    ctx.fillRect(0, 0, S.W, S.H); ctx.globalAlpha = 1;
+  }
+
+  // Preview-only guide: what Instagram's interface covers, and the 3:4 crop on the profile grid.
+  function drawSafeZone() {
+    var W = S.W, H = S.H, k = W / 1080;
+    if (H / W < 1.2) return;
+    ctx.save();
+    ctx.fillStyle = "rgba(255,0,80,.16)";
+    if (H / W > 1.5) {
+      ctx.fillRect(0, 0, W, 220 * k);                  // top bar
+      ctx.fillRect(0, H - 420 * k, W, 420 * k);        // caption, username, audio
+      ctx.fillRect(W - 140 * k, H - 1000 * k, 140 * k, 580 * k); // like / comment / share
+    }
+    var gh = W * 4 / 3, gw = W;
+    if (gh > H) { gh = H; gw = H * 3 / 4; }
+    ctx.setLineDash([14 * k, 10 * k]); ctx.lineWidth = 3 * k; ctx.strokeStyle = "rgba(255,0,80,.7)";
+    ctx.strokeRect((W - gw) / 2 + 2, (H - gh) / 2 + 2, gw - 4, gh - 4);
+    ctx.setLineDash([]); ctx.fillStyle = "rgba(255,0,80,.9)"; ctx.font = "500 " + 24 * k + "px Jost, sans-serif"; ctx.textAlign = "left";
+    ctx.fillText("profile grid crop", (W - gw) / 2 + 16 * k, (H - gh) / 2 + 36 * k);
+    if (H / W > 1.5) ctx.fillText("covered by instagram", 16 * k, H - 380 * k);
+    ctx.restore();
+  }
+
   var last = performance.now();
   function frame(now) {
     var dt = Math.min(0.1, (now - last) / 1000); last = now;
     var t = now / 1000, L = layout();
     analyse();
     if (S.style === "snow") drawSnow(L, t, dt); else if (S.style === "wire") drawWire(L, t); else drawBars(L, t);
+    drawFade();
+    if (!recorder && $("showSafe").checked) drawSafeZone();
     updateTransport();
     requestAnimationFrame(frame);
   }
@@ -342,6 +385,7 @@
     });
   }
   seg("styleSeg", function (v) { S.style = v; });
+  seg("clipSeg", function (v) { $("clipLen").value = v; });
   seg("fmtSeg", function (v) { var p = v.split("x"); S.W = cv.width = +p[0]; S.H = cv.height = +p[1]; buildBackground(); });
 
   function dropZone(zone, input, onFile) {
@@ -389,11 +433,11 @@
     $("playBtn").textContent = audio.paused ? "play" : "pause";
     if (!seeking && audio.duration) $("seek").value = Math.round(audio.currentTime / audio.duration * 1000);
     $("time").textContent = fmt(audio.currentTime) + " / " + fmt(audio.duration);
-    if (recorder) $("status").textContent = "● recording " + fmt(audio.currentTime - recStart) + (recEnd ? " / " + fmt(recEnd - recStart) : " / " + fmt(audio.duration - recStart)) + ". Keep this tab in front.";
+    if (recorder && !stopping) $("status").textContent = "● recording " + fmt(audio.currentTime - recStart) + (recEnd ? " / " + fmt(recEnd - recStart) : " / " + fmt(audio.duration - recStart)) + ". Keep this tab in front.";
   }
 
   // ── Recording ───────────────────────────────────────────────────
-  var recorder = null, chunks = [], recStart = 0, recEnd = 0, recTimer = null;
+  var stopping = false, recorder = null, chunks = [], recStart = 0, recEnd = 0, recTimer = null;
   function pickType() {
     // H.264 MP4 first (plays everywhere, Instagram takes it); then WebM; a bare "video/mp4" last,
     // because some browsers put VP9 inside it, which QuickTime and Instagram won't open.
@@ -432,6 +476,10 @@
     if (audio.ended || (audio.duration && audio.currentTime >= audio.duration - 0.5)) audio.currentTime = 0;
     recStart = audio.currentTime; recEnd = len > 0 ? Math.min(audio.duration, recStart + len) : 0;
     audio.pause();
+    var now = actx.currentTime;
+    gain.gain.cancelScheduledValues(now); gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(1, now + FADE);
+    if (recEnd) { gain.gain.setValueAtTime(1, now + (recEnd - recStart) - FADE); gain.gain.linearRampToValueAtTime(0, now + (recEnd - recStart)); }
     recorder.start(1000);
     audio.play();
     $("recBtn").textContent = "stop and save";
@@ -442,15 +490,19 @@
   }
 
   function stopRec() {
-    if (!recorder) return;
+    if (!recorder || stopping) return;
+    stopping = true;
     clearInterval(recTimer); audio.removeEventListener("ended", stopRec);
     audio.pause();
     // a short tail so the last frame and the end of the audio are in the file
-    var r = recorder; recorder = null;
-    setTimeout(function () { r.stop(); }, 250);
-    $("recBtn").textContent = "record video";
+    setTimeout(function () {
+      recorder.stop(); recorder = null; stopping = false;
+      gain.gain.cancelScheduledValues(actx.currentTime); gain.gain.setValueAtTime(1, actx.currentTime);
+      $("recBtn").textContent = "record video"; $("recBtn").disabled = false;
+      document.querySelectorAll(".seg button, #playBtn, #seek").forEach(function (b) { b.disabled = false; });
+    }, 300);
+    $("recBtn").disabled = true;
     $("status").textContent = "Saving…";
-    document.querySelectorAll(".seg button, #playBtn, #seek").forEach(function (b) { b.disabled = false; });
   }
 })();
 </script>

@@ -31,15 +31,17 @@ bash tools/make-press-pack.sh     # rebuilds the press-pack zip (includes the PD
 node tools/make-og-image.js       # rebuilds the share-preview image (needs Playwright)
 ```
 
-## Make a visualiser video
+## Make a visualiser video (for Instagram)
 
 `tools/visualiser.html` turns a song into a video in the stay home. palette: free, no watermark, nothing uploaded anywhere.
 
-1. Start the local server (below) and open http://localhost:8000/tools/visualiser.html in Chrome.
+1. Start the local server (below) and open http://localhost:8000/tools/visualiser.html in **Chrome or Safari** (Firefox saves WebM, which Instagram won't take).
 2. Drop in the song (mp3 or wav). The stay home. cover is used unless you drop in other artwork.
-3. Pick a look (**snow**: snow that thickens with the song · **wire**: power lines, the middle one carries the waveform · **bars**: a quiet spectrum) and a shape (16:9 YouTube, 9:16 Reels/TikTok/Shorts, 1:1, 4:5).
-4. Press **record video**. It records in real time, so keep the tab in front; the MP4 lands in your downloads. For a short clip, scrub to the spot and set the seconds first.
+3. Pick a look (**snow**: snow that thickens with the song · **wire**: power lines, the middle one carries the waveform · **bars**: a quiet spectrum) and a shape: **9:16** for Reels and Stories, **4:5** for a feed post.
+4. Scrub to the best bit, pick a clip length (15, 30, 60 or 90 seconds, or the whole song) and press **record video**. It records in real time with a fade in and out; keep the tab in front. The MP4 lands in your downloads.
+5. Send it to your phone and post it as a Reel.
 
+The pink areas in the preview show what Instagram's buttons and caption cover, and the dashed box is the profile-grid crop. They're never in the video.
 ## Preview locally
 
 ```bash
