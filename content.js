@@ -236,11 +236,13 @@ window.EPK = {
   ],
 
   // ── FREE SONG (Kit sign-up, shown near the top, under the facts) ─
-  // The form itself (its button text, thank-you message, the song
-  // delivery email) is set up in Kit. Set show: false to hide it.
-  // The Kit form's code is in index.html (data-uid="76d1e82219").
+  // Sign-ups go straight to the Kit form below. The song delivery email
+  // and what people see after signing up are set in Kit.
+  // Set show: false to hide the section (e.g. once 250 have signed up).
   giveaway: {
     show: true,
+    kitFormId: "10227105",           // from app.kit.com/forms/designers/10227105/edit
+    small: "You'll get one email with the song, and a couple more around the release of stay home. Unsubscribe any time.",
     title: "free song.",
     text: "An unreleased song from the Music To Sit Down To sessions, free to the first 250 people who sign up. Leave your email and it's yours.",
   },

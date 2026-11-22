@@ -121,7 +121,9 @@
     else pc.appendChild(document.createTextNode(PC.name));
   } else pc.remove();
   // ── Free song (Kit form): hidden when giveaway.show is false
-  if (!(C.giveaway && C.giveaway.show) && $("free-song")) $("free-song").remove();
+  var G = C.giveaway || {};
+  if (!G.show && $("free-song")) $("free-song").remove();
+  else if (G.kitFormId && $("giveaway-form")) $("giveaway-form").action = "https://app.kit.com/forms/" + G.kitFormId + "/subscriptions";
 
   var PP = C.pressPack || {}, dl = $("press-dl");
   if (PP.zip) dl.appendChild(el("a", { href: PP.zip, download: "", class: "btn btn--solid" }, ["download press pack (.zip)"]));
