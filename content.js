@@ -235,6 +235,16 @@ window.EPK = {
     { name: "Bored City", url: "https://boredcity.co/conversation-with-massive-cranes/" },
   ],
 
+  // ── FREE SONG (Kit sign-up, shown above contact) ─────────────
+  // The form itself (its button text, thank-you message, the song
+  // delivery email) is set up in Kit. Set show: false to hide it.
+  // The Kit form's code is in index.html (data-uid="76d1e82219").
+  giveaway: {
+    show: true,
+    title: "free song.",
+    text: "An unreleased song, free to the first 250 people who sign up. Leave your email and it's yours.",
+  },
+
   // ── CONTACT ──────────────────────────────────────────────────
   contact: {
     blurb: "Booking, press and label enquiries:",

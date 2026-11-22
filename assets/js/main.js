@@ -120,6 +120,9 @@
     if (PC.instagram) pc.appendChild(link("https://www.instagram.com/" + PC.instagram.replace(/^@/, "") + "/", PC.name + " (Instagram @" + PC.instagram.replace(/^@/, "") + ")"));
     else pc.appendChild(document.createTextNode(PC.name));
   } else pc.remove();
+  // ── Free song (Kit form): hidden when giveaway.show is false
+  if (!(C.giveaway && C.giveaway.show) && $("free-song")) $("free-song").remove();
+
   var PP = C.pressPack || {}, dl = $("press-dl");
   if (PP.zip) dl.appendChild(el("a", { href: PP.zip, download: "", class: "btn btn--solid" }, ["download press pack (.zip)"]));
   var navSheet = $("nav-sheet");   // the "press sheet" link in the top menu

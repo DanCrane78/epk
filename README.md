@@ -27,6 +27,7 @@ After changing photos, the cover, the bio or the press quotes, rebuild the downl
 
 ```bash
 node tools/make-press-sheet.js    # rebuilds the one-page press sheet PDF (needs Playwright)
+node tools/make-giveaway-images.js  # rebuilds the free-song Instagram post + story in assets/social/
 bash tools/make-press-pack.sh     # rebuilds the press-pack zip (includes the PDF, so run it second)
 node tools/make-og-image.js       # rebuilds the share-preview image (needs Playwright)
 ```
