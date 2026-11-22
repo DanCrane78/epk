@@ -22,7 +22,7 @@ window.EPK = {
   showTodos: false,
 
   artist: "Dan Crane",
-  lede: "For twenty years, on and off, a rapper from the south of England has been making records with the same producer in Łódź. Somewhere along the way, the records got quieter. That turned out to be the point.",
+  lede: "For twenty years, on and off, a rapper from the South of England has been making records with the same producer in Łódź. Somewhere along the way, the records got quieter. That turned out to be the point.",
   updated: "updated 22 november 2026",
 
   // ── HERO ─────────────────────────────────────────────────────
@@ -60,7 +60,7 @@ window.EPK = {
   buy: { label: "buy vinyl and cd on elasticStage", url: "https://elasticstage.com/carnival" },
 
   // ── BIO ──────────────────────────────────────────────────────
-  bioShort: "Dan Crane is a songwriter and rapper from the south of England, and the interesting thing about him is not how loud he got but how quiet. As Massive Cranes he made four albums in three years, with O.S.T.R, Helen Fisher and Observer, and finally alone. His new album, stay home., is out on 2 February 2027.",
+  bioShort: "Dan Crane is a songwriter and rapper from the South of England, and the interesting thing about him is not how loud he got but how quiet. As Massive Cranes he made four albums in three years, with O.S.T.R, Helen Fisher and Observer, and finally alone. His new album, stay home., is out on 2 February 2027.",
 
   bioLong: [
     "In 2004, a young London group called Skill Mega put out a twelve-inch record with a producer from Łódź. It had three songs on it. It was called Bitter Blocker, and almost nobody remembers it. But it may be the most important record in this story, for a simple reason: the rapper and the producer never really stopped.",
@@ -174,10 +174,6 @@ window.EPK = {
   // ── PHOTOS (press) ───────────────────────────────────────────
   photosNote: "Black and white, toned to the stay home. palette. Notice what isn't here: no crowds, no poses, no props. Mostly a man in a coat, standing still, which is more or less what the music sounds like. Click any photo to download it. Hi-res originals and colour versions on request.",
   photos: [
-    { src: "assets/photos/press-1.jpg", alt: "Dan Crane, toned portrait in a dark coat and scarf" },
-    { src: "assets/photos/press-2.jpg", alt: "Dan Crane, three-quarter portrait against a pale wall" },
-    { src: "assets/photos/press-3.jpg", alt: "Dan Crane, close portrait looking to one side" },
-    { src: "assets/photos/press-4.jpg", alt: "Dan Crane against corrugated metal" },
     { src: "assets/photos/press-5.jpg", alt: "Dan Crane on a terraced street, hand to chin" },
     { src: "assets/photos/press-6.jpg", alt: "Dan Crane standing in a back street" },
     { src: "assets/photos/press-7.jpg", alt: "Dan Crane by a hedge and lamppost" },
