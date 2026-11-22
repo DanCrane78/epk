@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dan Crane: stay home. (out 2.2.27) · Press kit</title>
+  <title>Dan Crane: stay home. (out 2.2.27) · press kit</title>
 
   <!-- ── LINK PREVIEW (edit these if the text or web address changes) ── -->
-  <meta name="description" content="Press kit for Dan Crane of Massive Cranes. Ambient electronic hip hop. New album stay home. and single oh well. out 2 February 2027.">
+  <meta name="description" content="Press kit for Dan Crane, West London songwriter and rapper making slow, spoken, ambient hip hop. Four albums as Massive Cranes; new album stay home. out 2 February 2027.">
   <link rel="canonical" href="https://dancrane78.github.io/epk/">
-  <meta property="og:type" content="music.album">
+  <meta property="og:type" content="website">
   <meta property="og:site_name" content="Dan Crane">
   <meta property="og:title" content="Dan Crane: stay home. (out 2.2.27)">
-  <meta property="og:description" content="Ambient electronic hip hop. Press kit: music, bio, photos, live.">
+  <meta property="og:description" content="Slow, spoken, ambient hip hop from West London. Press kit: music, bio, photos, live, press.">
   <meta property="og:url" content="https://dancrane78.github.io/epk/">
   <meta property="og:image" content="https://dancrane78.github.io/epk/assets/og/og-image.jpg">
   <meta property="og:image:width" content="1200">
@@ -19,14 +19,14 @@
   <meta property="og:image:alt" content="stay home. by Dan Crane, out 2.2.27">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Dan Crane: stay home. (out 2.2.27)">
-  <meta name="twitter:description" content="Ambient electronic hip hop. Press kit: music, bio, photos, live.">
+  <meta name="twitter:description" content="Slow, spoken, ambient hip hop from West London. Press kit: music, bio, photos, live, press.">
   <meta name="twitter:image" content="https://dancrane78.github.io/epk/assets/og/og-image.jpg">
   <!-- ─────────────────────────────────────────────────────────────── -->
 
-  <meta name="theme-color" content="#ece4d4" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1d1916" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#e8e2d8">
   <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/cover/stay-home-cover.jpg" as="image">
+  <link rel="preload" href="assets/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/cover/stay-home.jpg" as="image">
   <link rel="stylesheet" href="assets/css/style.css">
   <script src="content.js" defer></script>
   <script src="assets/js/main.js" defer></script>
@@ -35,104 +35,143 @@
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="top">
-    <a href="#top" class="top__logo" aria-label="Dan Crane, back to top">
-      <img src="assets/brand/logo.svg" alt="" width="48" height="24">
-    </a>
+    <a href="#top" class="top__logo"><img src="assets/brand/logo.svg" alt="dan crane. back to top" width="92" height="47"></a>
     <nav aria-label="Sections">
       <ul>
-        <li><a href="#listen">Listen</a></li>
-        <li><a href="#bio">Bio</a></li>
-        <li><a href="#photos">Photos</a></li>
-        <li><a href="#live">Live</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#listen">listen.</a></li>
+        <li><a href="#bio">bio.</a></li>
+        <li><a href="#music">music.</a></li>
+        <li><a href="#photos">photos.</a></li>
+        <li><a href="#live">live.</a></li>
+        <li><a href="#press">press.</a></li>
+        <li><a href="#contact">contact.</a></li>
       </ul>
     </nav>
   </header>
 
   <main id="main">
 
-    <!-- 1. HERO -->
+    <!-- HERO -->
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero__text">
-        <img class="hero__logo" src="assets/brand/logo.svg" alt="dc." width="160" height="80">
-        <p class="hero__artist"><span data-k="artist">Dan Crane</span> <span class="soft" data-k="aka"></span></p>
-        <h1 id="hero-title" class="hero__title">
-          <span data-k="release.title">stay home.</span>
-          <span class="hero__date">out <span data-k="release.date">2.2.27</span></span>
-        </h1>
-        <p class="hero__meta"><span data-k="genre"></span>. New <span class="lc" data-k="release.type"></span> and the single <em data-k="release.single"></em>, both out <span data-k="release.dateLong"></span>.</p>
-        <div class="hero__cta" id="presave"></div>
+        <img class="hero__logo" src="assets/brand/logo.svg" alt="dan crane." width="320" height="162">
+        <p class="hero__lede" data-k="lede"></p>
+        <p class="info" data-k="updated"></p>
       </div>
-      <figure class="hero__cover">
-        <img src="assets/cover/stay-home-cover.jpg" alt="stay home. album cover" width="1200" height="1200" fetchpriority="high">
-      </figure>
-    </section>
-
-    <!-- 2. LISTEN -->
-    <section class="section" id="listen" aria-labelledby="listen-h">
-      <h2 id="listen-h" class="label"><span class="num">01</span> Listen</h2>
-      <div class="listen" id="listen-list"></div>
-      <div id="private-link"></div>
-    </section>
-
-    <!-- 3. BIO -->
-    <section class="section" id="bio" aria-labelledby="bio-h">
-      <h2 id="bio-h" class="label"><span class="num">02</span> Bio</h2>
-      <div class="bios">
-        <article class="bio" aria-labelledby="bio-short-h">
-          <header class="bio__head">
-            <h3 id="bio-short-h">Short <span class="soft" id="bio-short-count"></span></h3>
-            <button class="btn btn--ghost" type="button" data-copy="bio-short-text">Copy</button>
-          </header>
-          <div class="bio__text" id="bio-short-text"></div>
-        </article>
-        <article class="bio bio--long" aria-labelledby="bio-long-h">
-          <header class="bio__head">
-            <h3 id="bio-long-h">Long <span class="soft" id="bio-long-count"></span></h3>
-            <button class="btn btn--ghost" type="button" data-copy="bio-long-text">Copy</button>
-          </header>
-          <div class="bio__text" id="bio-long-text"></div>
-        </article>
-      </div>
-      <h3 class="sublabel">Discography</h3>
-      <ol class="disco" id="disco"></ol>
-    </section>
-
-    <!-- 4. PHOTOS -->
-    <section class="section" id="photos" aria-labelledby="photos-h">
-      <h2 id="photos-h" class="label"><span class="num">03</span> Photos</h2>
-      <p class="hint">Click any image to download it at full size.</p>
-      <ul class="gallery" id="gallery"></ul>
-      <div class="press-dl" id="press-dl"></div>
-    </section>
-
-    <!-- 5. LIVE -->
-    <section class="section" id="live" aria-labelledby="live-h">
-      <h2 id="live-h" class="label"><span class="num">04</span> Live</h2>
-      <div class="live">
-        <div id="video"></div>
-        <div>
-          <h3 class="sublabel">Past shows</h3>
-          <ol class="shows" id="shows"></ol>
+      <div class="hero__new">
+        <img class="hero__cover" id="hero-cover" src="assets/cover/stay-home.jpg" alt="" width="1024" height="1024" fetchpriority="high">
+        <div class="hero__release">
+          <p class="info">new album</p>
+          <h1 id="hero-title"><img class="hero__title" src="assets/brand/stay-home-title-light.svg" alt="stay home." width="1144" height="257"></h1>
+          <p class="hero__date">out <span data-k="release.dateLong"></span> · lead single “<span data-k="release.single"></span>”</p>
+          <div id="presave"></div>
         </div>
       </div>
     </section>
 
-    <!-- 6. CONTACT -->
-    <section class="section section--contact" id="contact" aria-labelledby="contact-h">
-      <h2 id="contact-h" class="label"><span class="num">05</span> Contact</h2>
-      <div id="contact-main"></div>
-      <ul class="profiles" id="profiles"></ul>
+    <section class="facts" aria-label="At a glance"><dl id="facts"></dl></section>
+
+    <!-- LISTEN -->
+    <section class="section" id="listen" aria-labelledby="listen-h">
+      <h2 id="listen-h">listen.</h2>
+      <div class="listen" id="listen-list"></div>
+      <div class="listen__more">
+        <div id="private-link"></div>
+        <div id="buy"></div>
+      </div>
+    </section>
+
+    <!-- BIO -->
+    <section class="section" id="bio" aria-labelledby="bio-h">
+      <h2 id="bio-h">bio.</h2>
+      <div class="bios">
+        <article class="bio" aria-labelledby="bio-short-h">
+          <header class="bio__head">
+            <h3 id="bio-short-h">short <span class="soft" id="bio-short-count"></span></h3>
+            <button class="btn btn--ghost" type="button" data-copy="bio-short-text">copy</button>
+          </header>
+          <div class="bio__text bio__text--short" id="bio-short-text"></div>
+          <p class="bio__history soft" data-k="bioHistory"></p>
+        </article>
+        <article class="bio" aria-labelledby="bio-long-h">
+          <header class="bio__head">
+            <h3 id="bio-long-h">long <span class="soft" id="bio-long-count"></span></h3>
+            <button class="btn btn--ghost" type="button" data-copy="bio-long-text">copy</button>
+          </header>
+          <div class="bio__text" id="bio-long-text"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- MUSIC -->
+    <section class="section" id="music" aria-labelledby="music-h">
+      <h2 id="music-h">albums and eps.</h2>
+      <div class="albums" id="albums"></div>
+
+      <h2 class="h2--sub" id="singles-h">singles.</h2>
+      <table class="table" aria-labelledby="singles-h">
+        <thead><tr><th scope="col">release</th><th scope="col">year</th><th scope="col">note</th></tr></thead>
+        <tbody id="singles"></tbody>
+      </table>
+      <ul class="covers" id="single-covers" aria-label="Single artwork"></ul>
+
+      <h2 class="h2--sub" id="fresh-h">as dan fresh, 2002 to 2012.</h2>
+      <p class="soft" data-k="freshIntro"></p>
+      <table class="table" aria-labelledby="fresh-h">
+        <thead><tr><th scope="col">release</th><th scope="col">year</th><th scope="col">dan's part</th></tr></thead>
+        <tbody id="fresh"></tbody>
+      </table>
+
+      <h2 class="h2--sub">collaborators.</h2>
+      <div class="people" id="people"></div>
+      <div class="pair" id="collab-photos"></div>
+    </section>
+
+    <!-- PHOTOS -->
+    <section class="section" id="photos" aria-labelledby="photos-h">
+      <h2 id="photos-h">press photos.</h2>
+      <p class="soft" data-k="photosNote"></p>
+      <ul class="gallery" id="gallery"></ul>
+      <div class="press-dl" id="press-dl"></div>
+    </section>
+
+    <!-- LIVE -->
+    <section class="section" id="live" aria-labelledby="live-h">
+      <h2 id="live-h">live.</h2>
+      <p class="live__text" data-k="liveText"></p>
+      <div class="live">
+        <div id="video"></div>
+        <div>
+          <h3 class="info">shows</h3>
+          <ol class="shows" id="shows"></ol>
+        </div>
+      </div>
+      <ul class="live-photos" id="live-photos"></ul>
+    </section>
+
+    <!-- PRESS -->
+    <section class="section" id="press" aria-labelledby="press-h">
+      <h2 id="press-h">press.</h2>
+      <div class="quotes" id="quotes"></div>
+      <p class="soft press__also" id="press-also"></p>
     </section>
   </main>
 
-  <footer class="foot">
-    <img src="assets/brand/logo.svg" alt="" width="40" height="20">
-    <span data-k="footer"></span>
-  </footer>
+  <!-- CONTACT -->
+  <section class="contact" id="contact" aria-labelledby="contact-h">
+    <div class="contact__inner">
+      <div>
+        <h2 id="contact-h">contact.</h2>
+        <p data-k="contact.blurb"></p>
+        <div id="contact-main"></div>
+        <ul class="profiles" id="profiles"></ul>
+      </div>
+      <img class="contact__logo" src="assets/brand/logo-light.svg" alt="" width="200" height="101">
+    </div>
+    <p class="foot" data-k="footer"></p>
+  </section>
 
   <div class="toast" role="status" aria-live="polite" id="toast"></div>
-
-  <noscript><p class="noscript">This page needs JavaScript to show its music players and links.</p></noscript>
+  <noscript><p class="noscript">This page needs JavaScript to show its music, photos and links.</p></noscript>
 </body>
 </html>
