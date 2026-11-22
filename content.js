@@ -63,9 +63,10 @@ window.EPK = {
   // Paste normal YouTube links (youtube.com/watch?v=... or youtu.be/...).
   // They load only when clicked. A video with no link is hidden.
   videos: [
-    { title: "Monsters", note: "Massive Cranes · 2023", url: "", poster: "assets/releases/monsters.jpg" },             // TODO
-    { title: "Robert Frost", note: "Massive Cranes · 2023", url: "", poster: "assets/releases/robert-frost.jpg" },     // TODO
-    { title: "Porcelain Faces", note: "Massive Cranes & Observer · from Fallen", url: "", poster: "assets/releases/porcelain-faces.jpg" },   // TODO
+    { title: "Monsters", note: "Massive Cranes · 2023", url: "https://youtu.be/xW-vxRqPNyw", poster: "assets/releases/monsters.jpg" },
+    { title: "Robert Frost", note: "Massive Cranes · 2023", url: "https://youtu.be/Uzf-C0JoiO0", poster: "assets/releases/robert-frost.jpg" },
+    { title: "Porcelain Faces", note: "Massive Cranes & Observer · from Fallen", url: "https://youtu.be/FZozCYID_s0", poster: "assets/releases/porcelain-faces.jpg" },
+    { title: "Gordons Alive", note: "Massive Cranes & Observer · 2025", url: "https://youtu.be/J4LxiQNJ1tk", poster: "assets/releases/gordons-alive.jpg" },
   ],
 
   // ── BIO ──────────────────────────────────────────────────────
