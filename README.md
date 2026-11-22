@@ -15,7 +15,7 @@ One-page press kit for **stay home.** (out 2.2.27). Plain HTML, CSS and a little
 | What | Path |
 |---|---|
 | Logo, drawn "stay home." title (dark + light versions) | `assets/brand/` |
-| Typeface (Jost, free licence, hosted here) | `assets/fonts/` |
+| Typefaces (Jost, and Oswald for the visualiser; free licences, hosted here) | `assets/fonts/` |
 | "stay home." cover | `assets/cover/stay-home.jpg` |
 | Press and live photos (each one downloads when clicked) | `assets/photos/` |
 | Album and single artwork | `assets/releases/` |
@@ -36,8 +36,8 @@ node tools/make-og-image.js       # rebuilds the share-preview image (needs Play
 `tools/visualiser.html` turns a song into a video in the stay home. palette: free, no watermark, nothing uploaded anywhere.
 
 1. Start the local server (below) and open http://localhost:8000/tools/visualiser.html in **Chrome or Safari** (Firefox saves WebM, which Instagram won't take).
-2. Drop in the song (mp3 or wav). The stay home. cover is used unless you drop in other artwork.
-3. Pick a look (**snow**: snow that thickens with the song · **wire**: power lines, the middle one carries the waveform · **bars**: a quiet spectrum) and a shape: **9:16** for Reels and Stories, **4:5** for a feed post.
+2. Pick the release (**stay home.** or **Music To Sit Down To**: each sets its own cover, colours, lettering and default words) and drop in the song (mp3 or wav). You can drop in other artwork too.
+3. Pick a look (**snow** / **steam**: snow for stay home., coffee steam for Music To Sit Down To, thickening with the song · **wire**: power lines, the middle one carries the waveform · **bars**: a quiet spectrum) and a shape: **9:16** for Reels and Stories, **4:5** for a feed post.
 4. Scrub to the best bit, pick a clip length (15, 30, 60 or 90 seconds, or the whole song) and press **record video**. It records in real time with a fade in and out; keep the tab in front. The MP4 lands in your downloads.
 5. Send it to your phone and post it as a Reel.
 

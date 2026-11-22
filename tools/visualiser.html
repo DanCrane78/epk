@@ -16,8 +16,10 @@
 <style>
   @font-face { font-family: "Jost"; font-weight: 400 500; src: url("../assets/fonts/jost-latin.woff2") format("woff2"); }
   @font-face { font-family: "Jost"; font-weight: 400 500; src: url("../assets/fonts/jost-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+1E00-1E9F; }
+  @font-face { font-family: "Oswald"; font-weight: 500 600; src: url("../assets/fonts/oswald-latin.woff2") format("woff2"); }
   :root { --paper: #e8e2d8; --ink: #231a15; --muted: #5f554d; --brick: #8a5240; --rule: rgba(35,26,21,.2); }
   * { box-sizing: border-box; min-width: 0; }
+  [hidden] { display: none !important; }
   body { margin: 0; background: var(--paper); color: var(--ink); font: 400 15px/1.5 "Jost", system-ui, sans-serif; }
   .wrap { display: grid; grid-template-columns: 320px 1fr; min-height: 100vh; }
   @media (max-width: 860px) { .wrap { grid-template-columns: 1fr; } }
@@ -59,6 +61,14 @@
     </div>
 
     <div>
+      <span class="lbl">release</span>
+      <div class="seg" id="relSeg">
+        <button data-v="stay-home" aria-pressed="true">stay home.</button>
+        <button data-v="mtsdt" aria-pressed="false">Music To Sit Down To</button>
+      </div>
+    </div>
+
+    <div>
       <span class="lbl">audio</span>
       <div class="drop" id="dropAudio" tabindex="0" role="button">drop an mp3 / wav here, or click<b id="audioName"></b></div>
       <input type="file" id="fileAudio" accept="audio/*" hidden>
@@ -66,14 +76,14 @@
 
     <div>
       <span class="lbl">artwork</span>
-      <div class="drop" id="dropImg" tabindex="0" role="button">drop a cover (default: stay home.)<b id="imgName"></b></div>
+      <div class="drop" id="dropImg" tabindex="0" role="button">drop other artwork (optional)<b id="imgName"></b></div>
       <input type="file" id="fileImg" accept="image/*" hidden>
     </div>
 
     <div>
       <span class="lbl">look</span>
       <div class="seg" id="styleSeg">
-        <button data-v="snow" aria-pressed="true">snow</button>
+        <button data-v="air" aria-pressed="true" id="airBtn">snow</button>
         <button data-v="wire" aria-pressed="false">wire</button>
         <button data-v="bars" aria-pressed="false">bars</button>
       </div>
@@ -93,7 +103,7 @@
     <div><label for="sub">small line</label><input type="text" id="sub" value="from stay home. · out 2.2.27"></div>
 
     <div style="display:grid;gap:8px">
-      <label class="check"><input type="checkbox" id="useLogo" checked> drawn "dan crane." logo</label>
+      <label class="check" id="logoRow"><input type="checkbox" id="useLogo" checked> drawn "dan crane." logo</label>
       <label class="check"><input type="checkbox" id="showProgress"> progress line</label>
       <label class="check"><input type="checkbox" id="showSafe" checked> show where instagram covers it <span class="soft" style="margin:0">(preview only)</span></label>
     </div>
@@ -129,11 +139,22 @@
 <script>
 (function () {
   "use strict";
-  var PAPER = "#e8e2d8", INK = "#231a15", BRICK = "#8a5240", MUTED = "#5f554d";
+  // Each release brings its own cover, colours, lettering and default words.
+  var RELEASES = {
+    "stay-home": { cover: "../assets/cover/stay-home.jpg", slug: "dan-crane",
+      paper: "#e8e2d8", ink: "#231a15", accent: "#8a5240", muted: "#5f554d", signal: "#231a15", titleDark: "#e8e2d8", titleLight: "#231a15",
+      shade: "rgba(20,14,11,.55)", air: "snow", logo: true, artist: "dan crane.", font: "Jost", weight: 500, upper: false,
+      title: "oh well.", sub: "from stay home. · out 2.2.27" },
+    "mtsdt": { cover: "../assets/releases/music-to-sit-down-to.jpg", slug: "massive-cranes",
+      paper: "#ebe3d2", ink: "#15191d", accent: "#d0532c", muted: "#5d6670", signal: "#2f6f9f", titleDark: "#5aa0d2", titleLight: "#2f6f9f",
+      shade: "rgba(10,14,18,.62)", air: "steam", logo: false, artist: "MASSIVE CRANES", font: "Oswald", weight: 600, upper: true,
+      title: "GIRL AND CLOWN", sub: "from Music To Sit Down To · out now" }
+  };
+  var T = RELEASES["stay-home"], covers = {};
   var cv = document.getElementById("cv"), ctx = cv.getContext("2d");
   var $ = function (id) { return document.getElementById(id); };
 
-  var S = { style: "snow", W: 1080, H: 1920, img: null, bg: null, logoInk: null, logoPaper: null, logoRatio: 284 / 561 };
+  var S = { style: "air", W: 1080, H: 1920, img: null, bg: null, logoInk: null, logoPaper: null, logoRatio: 284 / 561 };
   var audio = new Audio(); audio.preload = "auto";
   var actx, analyser, srcNode, recDest, gain, timeBuf, freqBuf;
   var level = 0, bass = 0, bars = new Float32Array(48);
@@ -148,9 +169,19 @@
   }
   fetch("../assets/brand/logo.svg").then(function (r) { return r.text(); }).then(function (t) {
     var vb = /viewBox="([^"]+)"/.exec(t); if (vb) { var p = vb[1].split(/\s+/).map(Number); S.logoRatio = p[3] / p[2]; }
-    return Promise.all([svgImage(t, INK), svgImage(t, PAPER)]);
+    return Promise.all([svgImage(t, RELEASES["stay-home"].ink), svgImage(t, RELEASES["stay-home"].paper)]);
   }).then(function (l) { S.logoInk = l[0]; S.logoPaper = l[1]; }).catch(function () {});
-  loadImage("../assets/cover/stay-home.jpg").then(setImage).catch(function () {});
+  var customImage = false;
+  function setRelease(key) {
+    T = RELEASES[key];
+    $("title").value = T.title; $("sub").value = T.sub;
+    $("airBtn").textContent = T.air;
+    $("logoRow").hidden = !T.logo;
+    if (document.fonts) document.fonts.load(T.weight + ' 40px "' + T.font + '"');
+    customImage = false; $("imgName").textContent = "";
+    if (covers[key]) { setImage(covers[key]); return; }
+    loadImage(T.cover).then(function (img) { covers[key] = img; if (T === RELEASES[key] && !customImage) setImage(img); }).catch(function () {});
+  }
   if (document.fonts) document.fonts.load('500 40px "Jost"');
 
   function setImage(img) { S.img = img; buildBackground(); }
@@ -163,7 +194,7 @@
     g.filter = "blur(" + Math.round(m / 40) + "px) saturate(.8)";
     g.drawImage(S.img, (S.W - m) / 2, (S.H - m) / 2, m, m);
     g.filter = "none";
-    g.fillStyle = "rgba(20,14,11,.55)"; g.fillRect(0, 0, S.W, S.H);
+    g.fillStyle = T.shade; g.fillRect(0, 0, S.W, S.H);
     S.bg = c;
   }
 
@@ -191,7 +222,7 @@
   }
 
   function blockHeight(L) {
-    var useLogo = $("useLogo").checked && S.logoPaper, ts = L.titleSize, ss = L.subSize;
+    var useLogo = T.logo && $("useLogo").checked && S.logoPaper, ts = L.titleSize, ss = L.subSize;
     return (useLogo ? L.logoW * S.logoRatio : ts * 0.8) + ts * 0.55 + ts + ($("sub").value ? ss * 1.9 : 0);
   }
 
@@ -239,20 +270,23 @@
     var s = L.size * (1 + bass * 0.012), x = L.cx + (L.size - s) / 2, y = L.cy + (L.size - s) / 2;
     ctx.save();
     if (shadow) { ctx.shadowColor = "rgba(0,0,0,.45)"; ctx.shadowBlur = L.size * 0.08; ctx.shadowOffsetY = L.size * 0.025; }
-    if (S.img) ctx.drawImage(S.img, x, y, s, s); else { ctx.fillStyle = BRICK; ctx.fillRect(x, y, s, s); }
+    if (S.img) ctx.drawImage(S.img, x, y, s, s); else { ctx.fillStyle = T.accent; ctx.fillRect(x, y, s, s); }
     ctx.restore();
   }
 
-  function drawWords(L, colour, logo) {
-    var title = $("title").value, sub = $("sub").value, useLogo = $("useLogo").checked && logo;
+  function drawWords(L, colour, logo, titleColour) {
+    var title = $("title").value, sub = $("sub").value, useLogo = T.logo && $("useLogo").checked && logo;
+    var disp = T.weight + " {s}px " + T.font + ", Jost, sans-serif";
     var lw = L.logoW, lh = lw * S.logoRatio, ts = L.titleSize, ss = L.subSize;
     ctx.fillStyle = colour; ctx.textAlign = L.align; ctx.textBaseline = "alphabetic";
     var gap1 = ts * 0.55, gap2 = ss * 0.9;
     var y = L.textBottom != null ? L.textBottom - blockHeight(L) : L.textTop;
     var x = L.textX;
     if (useLogo) { ctx.drawImage(logo, L.align === "center" ? x - lw / 2 : x, y, lw, lh); y += lh + gap1; }
-    else { ctx.font = "500 " + ts * 0.8 + "px Jost, sans-serif"; ctx.fillText("dan crane.", x, y + ts * 0.8); y += ts * 0.8 + gap1; }
-    ctx.font = "500 " + ts + "px Jost, sans-serif"; ctx.fillText(title, x, y + ts * 0.8); y += ts;
+    else { ctx.font = disp.replace("{s}", ts * 0.8); ctx.fillText(T.artist, x, y + ts * 0.8); y += ts * 0.8 + gap1; }
+    ctx.fillStyle = titleColour || colour;
+    ctx.font = disp.replace("{s}", ts); ctx.fillText(title, x, y + ts * 0.8); y += ts;
+    ctx.fillStyle = colour;
     if (sub) { ctx.globalAlpha = 0.72; ctx.font = "400 " + ss + "px Jost, sans-serif"; ctx.fillText(sub, x, y + gap2 + ss * 0.8); ctx.globalAlpha = 1; }
   }
 
@@ -263,14 +297,20 @@
     ctx.globalAlpha = 1; ctx.fillRect(0, S.H - h, S.W * audio.currentTime / audio.duration, h);
   }
 
-  // Snow: the cover over its own blurred glow, snow that thickens and quickens with the song.
-  function drawSnow(L, t, dt) {
+  // Snow (stay home.) or steam (Music To Sit Down To): the cover over its own blurred glow,
+  // with weather that thickens and quickens with the song.
+  function drawAir(L, t, dt) {
     if (S.bg) {
       var k = 1.04 + Math.sin(t / 23) * 0.02, w = S.W * k, h = S.H * k;
       ctx.drawImage(S.bg, (S.W - w) / 2 + Math.sin(t / 31) * S.W * 0.01, (S.H - h) / 2, w, h);
-    } else { ctx.fillStyle = INK; ctx.fillRect(0, 0, S.W, S.H); }
+    } else { ctx.fillStyle = T.ink; ctx.fillRect(0, 0, S.W, S.H); }
     drawCover(L, t, true);
-    drawWords(L, PAPER, S.logoPaper);
+    drawWords(L, T.paper, S.logoPaper, T.titleDark);
+    if (T.air === "steam") drawSteam(t, dt); else drawSnowflakes(t, dt);
+    drawProgress(T.paper);
+  }
+
+  function drawSnowflakes(t, dt) {
     var u = Math.min(S.W, S.H), speed = 0.045 + level * 0.22;
     ctx.fillStyle = "#fff";
     for (var i = 0; i < flakes.length; i++) {
@@ -284,14 +324,37 @@
       ctx.beginPath(); ctx.arc(fl.x * S.W, fl.y * S.H, r, 0, 6.283); ctx.fill();
     }
     ctx.globalAlpha = 1;
-    drawProgress(PAPER);
+  }
+
+  // Steam off the coffee pot: soft puffs that rise, widen and thin out; louder music, more of it.
+  var puffSprite = (function () {
+    var c = document.createElement("canvas"); c.width = c.height = 128;
+    var g = c.getContext("2d"), r = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    r.addColorStop(0, "rgba(255,255,255,1)"); r.addColorStop(0.45, "rgba(255,255,255,.45)"); r.addColorStop(1, "rgba(255,255,255,0)");
+    g.fillStyle = r; g.fillRect(0, 0, 128, 128); return c;
+  })();
+  var puffs = [];
+  for (var q = 0; q < 90; q++) puffs.push({ x: Math.random(), y: Math.random() * 1.2, z: 0.4 + Math.random() * 0.6, p: Math.random() * 6.28 });
+  function drawSteam(t, dt) {
+    var u = Math.min(S.W, S.H), speed = 0.03 + level * 0.1;
+    for (var i = 0; i < puffs.length; i++) {
+      var pf = puffs[i];
+      pf.y -= dt * speed * pf.z * (S.W / S.H > 1 ? 1 : 0.6);
+      if (pf.y < -0.15) { pf.y = 1.15; pf.x = Math.random(); }
+      var life = Math.max(0, Math.min(1, (1.15 - pf.y) / 1.3));        // 0 at the bottom, 1 at the top
+      var x = (pf.x + Math.sin(t * 0.35 + pf.p + pf.y * 4) * 0.035 * life) * S.W, y = pf.y * S.H;
+      var r = u * (0.05 + life * 0.16) * pf.z;
+      ctx.globalAlpha = Math.sin(Math.PI * life) * 0.16 * pf.z * (0.6 + level * 0.9);
+      ctx.drawImage(puffSprite, x - r, y - r, r * 2, r * 2);
+    }
+    ctx.globalAlpha = 1;
   }
 
   // Wire: paper, the cover, and three power lines strung across. The middle one carries the song.
   function drawWire(L, t) {
-    ctx.fillStyle = PAPER; ctx.fillRect(0, 0, S.W, S.H);
+    ctx.fillStyle = T.paper; ctx.fillRect(0, 0, S.W, S.H);
     drawCover(L, t, false);
-    drawWords(L, INK, S.logoInk);
+    drawWords(L, T.ink, S.logoInk, T.titleLight);
     var V = L.viz, N = 240, u = Math.min(S.W, S.H);
     for (var w = 0; w < 3; w++) {
       var base = V.y + V.h * (0.2 + w * 0.3), sag = V.h * (0.18 + w * 0.04);
@@ -305,29 +368,29 @@
         }
         if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y);
       }
-      ctx.strokeStyle = w === 1 ? INK : MUTED; ctx.globalAlpha = w === 1 ? 1 : 0.45;
+      ctx.strokeStyle = w === 1 ? T.signal : T.muted; ctx.globalAlpha = w === 1 ? 1 : 0.45;
       ctx.lineWidth = u * (w === 1 ? 0.0034 : 0.0018); ctx.lineJoin = "round"; ctx.stroke();
     }
     ctx.globalAlpha = 1;
     // the two pylon ends
-    ctx.fillStyle = INK; var pw = u * 0.006;
+    ctx.fillStyle = T.ink; var pw = u * 0.006;
     ctx.fillRect(V.x - pw / 2, V.y, pw, V.h * 1.05); ctx.fillRect(V.x + V.w - pw / 2, V.y, pw, V.h * 1.05);
-    drawProgress(BRICK);
+    drawProgress(T.accent);
   }
 
   // Bars: dark room, a quiet spectrum under the cover, low notes on the left.
   function drawBars(L, t) {
-    ctx.fillStyle = INK; ctx.fillRect(0, 0, S.W, S.H);
+    ctx.fillStyle = T.ink; ctx.fillRect(0, 0, S.W, S.H);
     drawCover(L, t, false);
-    drawWords(L, PAPER, S.logoPaper);
+    drawWords(L, T.paper, S.logoPaper, T.titleDark);
     var V = L.viz, n = bars.length, gap = V.w / n * 0.38, bw = V.w / n - gap, floor = Math.max(2, V.h * 0.025);
     for (var i = 0; i < n; i++) {
       var h = floor + bars[i] * (V.h - floor), x = V.x + i * (bw + gap) + gap / 2;
-      ctx.fillStyle = PAPER; ctx.globalAlpha = 0.85; ctx.fillRect(x, V.y + V.h - h, bw, h);
-      ctx.fillStyle = BRICK; ctx.globalAlpha = 1; ctx.fillRect(x, V.y + V.h - h, bw, Math.min(h, floor * 1.5));
+      ctx.fillStyle = T.paper; ctx.globalAlpha = 0.85; ctx.fillRect(x, V.y + V.h - h, bw, h);
+      ctx.fillStyle = T.accent; ctx.globalAlpha = 1; ctx.fillRect(x, V.y + V.h - h, bw, Math.min(h, floor * 1.5));
     }
     ctx.globalAlpha = 1;
-    drawProgress(BRICK);
+    drawProgress(T.accent);
   }
 
   // Clips fade in from, and out to, the background colour (audio fades too, in startRec).
@@ -337,7 +400,7 @@
     var a = Math.max(0, 1 - (audio.currentTime - recStart) / FADE);
     if (recEnd) a = Math.max(a, 1 - (recEnd - audio.currentTime) / FADE);
     if (a <= 0) return;
-    ctx.globalAlpha = Math.min(1, a); ctx.fillStyle = S.style === "wire" ? PAPER : INK;
+    ctx.globalAlpha = Math.min(1, a); ctx.fillStyle = S.style === "wire" ? T.paper : T.ink;
     ctx.fillRect(0, 0, S.W, S.H); ctx.globalAlpha = 1;
   }
 
@@ -367,7 +430,7 @@
     var dt = Math.min(0.1, (now - last) / 1000); last = now;
     var t = now / 1000, L = layout();
     analyse();
-    if (S.style === "snow") drawSnow(L, t, dt); else if (S.style === "wire") drawWire(L, t); else drawBars(L, t);
+    if (S.style === "air") drawAir(L, t, dt); else if (S.style === "wire") drawWire(L, t); else drawBars(L, t);
     drawFade();
     if (!recorder && $("showSafe").checked) drawSafeZone();
     updateTransport();
@@ -385,6 +448,8 @@
     });
   }
   seg("styleSeg", function (v) { S.style = v; });
+  seg("relSeg", setRelease);
+  setRelease("stay-home");
   seg("clipSeg", function (v) { $("clipLen").value = v; });
   seg("fmtSeg", function (v) { var p = v.split("x"); S.W = cv.width = +p[0]; S.H = cv.height = +p[1]; buildBackground(); });
 
@@ -398,7 +463,7 @@
   }
   dropZone($("dropAudio"), $("fileAudio"), setAudio);
   dropZone($("dropImg"), $("fileImg"), function (file) {
-    loadImage(URL.createObjectURL(file)).then(function (img) { setImage(img); $("imgName").textContent = file.name; });
+    loadImage(URL.createObjectURL(file)).then(function (img) { customImage = true; setImage(img); $("imgName").textContent = file.name; });
   });
   // Dropping anywhere else on the page works too: audio or image, by type.
   document.addEventListener("dragover", function (e) { e.preventDefault(); });
@@ -406,14 +471,14 @@
     if (e.target.closest(".drop")) return; e.preventDefault();
     var file = e.dataTransfer.files[0]; if (!file) return;
     if (/^audio\//.test(file.type)) setAudio(file);
-    else if (/^image\//.test(file.type)) loadImage(URL.createObjectURL(file)).then(function (img) { setImage(img); $("imgName").textContent = file.name; });
+    else if (/^image\//.test(file.type)) loadImage(URL.createObjectURL(file)).then(function (img) { customImage = true; setImage(img); $("imgName").textContent = file.name; });
   });
 
   function setAudio(file) {
     audio.pause(); audio.src = URL.createObjectURL(file);
     $("audioName").textContent = file.name;
     var guess = file.name.replace(/\.[^.]+$/, "").replace(/^\d+[\s._-]+/, "").replace(/[_-]+/g, " ").trim();
-    if (guess) $("title").value = guess.toLowerCase().replace(/\.?$/, ".");
+    if (guess) $("title").value = T.upper ? guess.toUpperCase().replace(/\.$/, "") : guess.toLowerCase().replace(/\.?$/, ".");
     audio.addEventListener("loadedmetadata", function () {
       $("playBtn").disabled = $("seek").disabled = $("recBtn").disabled = false;
       $("status").textContent = "Ready. Press play to preview, or record.";
@@ -467,7 +532,7 @@
       var blob = new Blob(chunks, { type: type.split(";")[0] }), ext = /mp4/.test(type) ? "mp4" : "webm";
       var a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = ("dan-crane-" + ($("title").value || "visualiser") + "-" + S.style + "-" + S.W + "x" + S.H).replace(/[^\w.-]+/g, "-").replace(/\.+(?=-)|-+$/g, "").replace(/-+/g, "-") + "." + ext;
+      a.download = (T.slug + "-" + ($("title").value || "visualiser") + "-" + S.style + "-" + S.W + "x" + S.H).replace(/[^\w.-]+/g, "-").replace(/\.+(?=-)|-+$/g, "").replace(/-+/g, "-") + "." + ext;
       document.body.appendChild(a); a.click(); a.remove();
       $("status").classList.remove("rec");
       $("status").textContent = "Saved " + a.download + " (" + (blob.size / 1e6).toFixed(1) + " MB). Check your downloads.";
