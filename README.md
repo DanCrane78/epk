@@ -14,12 +14,14 @@ One-page press kit for **stay home.** (out 2.2.27). Plain HTML, CSS and a little
 
 | What | Path |
 |---|---|
-| Logo (monochrome) | `assets/brand/logo.svg` |
-| Your typeface | `assets/fonts/dan-crane.woff2` (or change the name in `assets/css/style.css`, top) |
-| Album cover | `assets/cover/stay-home-cover.jpg` |
-| Photos shown on page (about 1200px wide) | `assets/photos/web/` |
-| Full-size photos for download | `assets/photos/full/` (same file names) |
+| Logo, drawn "stay home." title (dark + light versions) | `assets/brand/` |
+| Typeface (Jost, free licence, hosted here) | `assets/fonts/` |
+| "stay home." cover | `assets/cover/stay-home.jpg` |
+| Press and live photos (each one downloads when clicked) | `assets/photos/` |
+| Album and single artwork | `assets/releases/` |
 | Press sheet | `assets/press/dan-crane-press-sheet.pdf` (and set `pressPack.sheet` in `content.js`) |
+
+To add a photo: drop it in `assets/photos/` and add a line for it in `content.js` (`photos` or `livePhotos`).
 
 After changing photos, the cover or the bio, rebuild the downloads:
 
