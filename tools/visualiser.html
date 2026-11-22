@@ -532,7 +532,7 @@
       var blob = new Blob(chunks, { type: type.split(";")[0] }), ext = /mp4/.test(type) ? "mp4" : "webm";
       var a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = (T.slug + "-" + ($("title").value || "visualiser") + "-" + S.style + "-" + S.W + "x" + S.H).replace(/[^\w.-]+/g, "-").replace(/\.+(?=-)|-+$/g, "").replace(/-+/g, "-") + "." + ext;
+      a.download = (T.slug + "-" + ($("title").value || "visualiser") + "-" + (S.style === "air" ? T.air : S.style) + "-" + S.W + "x" + S.H).toLowerCase().replace(/[^\w.-]+/g, "-").replace(/\.+(?=-)|-+$/g, "").replace(/-+/g, "-") + "." + ext;
       document.body.appendChild(a); a.click(); a.remove();
       $("status").classList.remove("rec");
       $("status").textContent = "Saved " + a.download + " (" + (blob.size / 1e6).toFixed(1) + " MB). Check your downloads.";
