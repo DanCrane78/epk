@@ -235,7 +235,7 @@ window.EPK = {
   // ── CONTACT ──────────────────────────────────────────────────
   contact: {
     blurb: "Booking, press and label enquiries:",
-    email: "",                       // TODO
+    email: "dan@massivecranes.com",
     instagram: "",                   // TODO: handle without the @
   },
   profiles: [
