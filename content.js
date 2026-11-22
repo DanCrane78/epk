@@ -19,7 +19,7 @@ window.EPK = {
 
   // While true, missing links show as dashed "to add" boxes and
   // paraphrased press lines are flagged. Set to false before sending.
-  showTodos: true,
+  showTodos: false,
 
   artist: "Dan Crane",
   lede: "Songwriter and rapper from West London, making slow, spoken, ambient hip hop. Four albums as Massive Cranes; a new one under his own name in February.",

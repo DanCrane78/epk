@@ -34,7 +34,8 @@
   // ── Hero
   var R = C.release || {};
   $("hero-cover").src = R.cover; $("hero-cover").alt = R.coverAlt || "";
-  $("presave").appendChild(R.presaveUrl ? link(R.presaveUrl, R.presaveLabel || "pre-save", "btn btn--light") : todo("pre-save link"));
+  var ps = R.presaveUrl ? link(R.presaveUrl, R.presaveLabel || "pre-save", "btn btn--light") : todo("pre-save link");
+  if (ps) $("presave").appendChild(ps);
   each(C.facts, function (f) { $("facts").appendChild(el("div", {}, [el("dt", { text: f.big }), el("dd", { text: f.small })])); });
 
   // ── Listen
