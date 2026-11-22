@@ -59,6 +59,16 @@ window.EPK = {
   },
   buy: { label: "buy vinyl and cd on elasticStage", url: "https://elasticstage.com/carnival" },
 
+  // ── VIDEOS ───────────────────────────────────────────────────
+  // Paste normal YouTube links (youtube.com/watch?v=... or youtu.be/...).
+  // They load only when clicked. A video with no link is hidden.
+  videos: [
+    { title: "Monsters", note: "Massive Cranes · 2023", url: "https://youtu.be/xW-vxRqPNyw", poster: "assets/releases/monsters.jpg" },
+    { title: "Robert Frost", note: "Massive Cranes · 2023", url: "https://youtu.be/Uzf-C0JoiO0", poster: "assets/releases/robert-frost.jpg" },
+    { title: "Porcelain Faces", note: "Massive Cranes & Observer · from Fallen", url: "https://youtu.be/FZozCYID_s0", poster: "assets/releases/porcelain-faces.jpg" },
+    { title: "Gordons Alive", note: "Massive Cranes & Observer · 2025", url: "https://youtu.be/J4LxiQNJ1tk", poster: "assets/releases/gordons-alive.jpg" },
+  ],
+
   // ── BIO ──────────────────────────────────────────────────────
   bioShort: "Dan Crane is a songwriter and rapper from the South of England, and the interesting thing about him is not how loud he got but how quiet. As Massive Cranes he made four albums in three years, with O.S.T.R, Helen Fisher and Observer, and finally alone. His new album, stay home., is out on 2 February 2027.",
 
