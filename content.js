@@ -242,7 +242,7 @@ window.EPK = {
   giveaway: {
     show: true,
     title: "free song.",
-    text: "An unreleased song, free to the first 250 people who sign up. Leave your email and it's yours.",
+    text: "An unreleased song from the Music To Sit Down To sessions, free to the first 250 people who sign up. Leave your email and it's yours.",
   },
 
   // ── CONTACT ──────────────────────────────────────────────────
