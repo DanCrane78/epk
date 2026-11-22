@@ -172,7 +172,7 @@ window.EPK = {
   ],
 
   // ── PHOTOS (press) ───────────────────────────────────────────
-  photosNote: "Black and white, toned to the stay home. palette. Notice what isn't here: no crowds, no poses, no props. Mostly a man in a coat, standing still, which is more or less what the music sounds like. Click any photo to download it. Hi-res originals and colour versions on request.",
+  photosNote: "Black and white, toned to the stay home. palette. Notice what isn't here: no crowds, no stage lights, no props. Just a man standing still or sitting down, which is more or less what the music sounds like. Click any photo to download it. Hi-res originals and colour versions on request.",
   photos: [
     { src: "assets/photos/press-5.jpg", alt: "Dan Crane on a terraced street, hand to chin" },
     { src: "assets/photos/press-6.jpg", alt: "Dan Crane standing in a back street" },
