@@ -22,7 +22,7 @@ window.EPK = {
   showTodos: false,
 
   artist: "Dan Crane",
-  lede: "For twenty years, on and off, a rapper from the South of England has been making records with the same producer in Łódź. Somewhere along the way, the records got quieter. That turned out to be the point.",
+  lede: "For twenty years, on and off (mostly off), a rapper from the South of England has been making records with the same producer in Łódź. Somewhere along the way, the records got quieter. That turned out to be the point.",
   updated: "updated 22 november 2026",
 
   // ── HERO ─────────────────────────────────────────────────────
