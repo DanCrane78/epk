@@ -1,0 +1,47 @@
+<!doctype html>
+<!-- Instagram posts (1080×1440) in the dan crane. style: paper / ink / brick, Jost, 76px margin,
+     wordmark top-left, one info line at the foot. Rendered by tools/make-social-posts.js. -->
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "Jost"; font-weight: 400 500; src: url("../assets/fonts/jost-latin.woff2") format("woff2"); }
+  @font-face { font-family: "Jost"; font-weight: 400 500; src: url("../assets/fonts/jost-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+1E00-1EFF; }
+  html, body { margin: 0; background: #888; }
+  .post { width: 1080px; height: 1440px; box-sizing: border-box; padding: 76px; display: flex; flex-direction: column;
+          font-family: "Jost", Futura, sans-serif; margin-bottom: 40px; }
+  .mark { width: 260px; display: block; }
+  .foot { font-size: 28px; font-weight: 500; letter-spacing: .06em; }
+
+  /* 1 · countdown, brick */
+  .brick { background: #8a5240; color: #e8e2d8; justify-content: space-between; }
+  .big { font-size: 420px; line-height: .85; font-weight: 500; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+  .until { font-size: 72px; font-weight: 500; margin: 28px 0 24px; }
+  .title { width: 928px; display: block; }
+
+  /* 2 · since 2004, ink */
+  .ink { background: #231a15; color: #e8e2d8; gap: 56px; }
+  .photo { width: 928px; flex-grow: 1; min-height: 0; object-fit: cover; object-position: center 35%; display: block; filter: grayscale(1) sepia(.18) contrast(1.02); }
+  .ink .foot { color: #b5aca0; }
+</style>
+
+<div class="post brick" id="countdown">
+  <img class="mark" src="../assets/brand/logo-light.svg" alt="dan crane.">
+  <div>
+    <div class="big" id="days">71</div>
+    <div class="until">days until you</div>
+    <img class="title" src="../assets/brand/stay-home-title-light.svg" alt="stay home.">
+  </div>
+  <div class="foot">album · 2 feb 2027.</div>
+</div>
+
+<div class="post ink" id="ostr">
+  <img class="mark" src="../assets/brand/logo-light.svg" alt="dan crane.">
+  <img class="photo" src="../assets/photos/with-ostr-2.jpg" alt="dan crane and o.s.t.r. in a record shop covered in stickers">
+  <div class="foot">dan crane &amp; o.s.t.r. · london / łódź · since 2004.</div>
+</div>
+
+<script>
+  // ?days=NN overrides the countdown number; otherwise it counts to 2 Feb 2027 from today.
+  var q = new URLSearchParams(location.search).get("days");
+  var t = new Date(); t.setHours(0, 0, 0, 0);
+  document.getElementById("days").textContent = q || Math.round((new Date("2027-02-02T00:00:00") - t) / 864e5);
+</script>
