@@ -240,7 +240,7 @@ window.EPK = {
   // and what people see after signing up are set in Kit.
   // Set show: false to hide the section (e.g. once 250 have signed up).
   giveaway: {
-    show: true,
+    show: false,                     // now lives on the fan site: dancrane78.github.io/#free-song (fan.js there turns it on/off)
     kitFormId: "10227105",           // from app.kit.com/forms/designers/10227105/edit
     small: "You'll get one email with the song, and a couple more around the release of stay home. Unsubscribe any time.",
     title: "free song.",
