@@ -49,7 +49,7 @@ window.EPK = {
   listen: [
     // When "oh well." is out, add it back as the first line:
     // { title: "oh well.", note: "lead single from stay home. · out 2.2.27", spotify: "PASTE LINK" },
-    { title: "Music To Sit Down To", note: "2026 · ten tracks, one instruction on the cover", spotify: "https://open.spotify.com/album/5yabsI251rLdfxGSslpkOB" },
+    { title: "Music To Sit Down To", note: "2026 · written and made alone", spotify: "https://open.spotify.com/album/5yabsI251rLdfxGSslpkOB" },
     { title: "the full catalogue", note: "four albums in three years, plus the Kensal Green EP and the singles", spotify: "https://open.spotify.com/artist/31H2LvdE3eArkCFj9dWu1Y" },
   ],
   privateLink: {
