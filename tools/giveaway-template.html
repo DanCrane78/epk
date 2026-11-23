@@ -1,53 +1,47 @@
 <!doctype html><meta charset="utf-8">
-<!-- Instagram images for the free-song giveaway.
+<!-- Instagram images for the free-song giveaway, on brick.
      Rendered by: node tools/make-giveaway-images.js
-     ?format=post (1080x1080) or ?format=story (1080x1920) -->
+     ?format=post (1080x1350, 4:5 feed post) or ?format=story (1080x1920)
+     The post keeps everything inside the middle 3:4 so the profile grid crop
+     never cuts or crowds anything. -->
 <style>
   @font-face { font-family: "Jost"; font-weight: 400 500; src: url("../assets/fonts/jost-latin.woff2") format("woff2"); }
-  :root { --paper: #e8e2d8; --ink: #231a15; --muted: #5f554d; --brick: #8a5240; }
+  :root { --paper: #e8e2d8; --ink: #231a15; --brick: #8a5240; }
   * { box-sizing: border-box; }
-  html, body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Jost", sans-serif; }
-  .c { width: 1080px; display: flex; flex-direction: column; padding: 72px; }
-  .logo { width: 210px; display: block; }
-  .kicker { font-weight: 500; font-size: 26px; letter-spacing: .14em; text-transform: uppercase; color: var(--brick); margin: 0 0 18px; }
-  h1 { font-weight: 500; font-size: 112px; line-height: .95; letter-spacing: -.02em; margin: 0; }
-  .sub { font-size: 38px; line-height: 1.3; margin: 26px 0 0; max-width: 18ch; }
-  .tag { display: inline-block; background: var(--ink); color: var(--paper); font-weight: 500; font-size: 30px; letter-spacing: .04em; padding: 18px 30px; }
-  .box { background: var(--brick); color: var(--paper); padding: 34px; }
-  .box img.cover { width: 100%; display: block; aspect-ratio: 1; object-fit: cover; }
-  .box img.title { display: block; width: 100%; margin-top: 26px; }
-  .box p { margin: 0; }
-  .box .from { margin-top: 26px; font-weight: 500; font-size: 22px; letter-spacing: .14em; text-transform: uppercase; opacity: .85; }
-  .box .album { margin-top: 8px; font-weight: 500; font-size: 40px; line-height: 1.1; letter-spacing: -.01em; }
+  html, body { margin: 0; background: var(--brick); color: var(--paper); font-family: "Jost", sans-serif; }
+  .c { width: 1080px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .logo { width: 170px; display: block; }
+  .cover { display: block; aspect-ratio: 1; object-fit: cover; box-shadow: 0 24px 60px rgba(35,26,21,.35); }
+  .kicker { font-weight: 500; font-size: 24px; letter-spacing: .16em; text-transform: uppercase; margin: 0; opacity: .8; }
+  h1 { font-weight: 500; line-height: 1; letter-spacing: -.02em; margin: 0; }
+  .sub { font-size: 34px; line-height: 1.3; margin: 0; }
+  .from { font-size: 24px; margin: 0; opacity: .8; }
+  .tag { display: inline-block; background: var(--paper); color: var(--ink); font-weight: 500; font-size: 30px; padding: 18px 34px; }
 
-  /* square post: words left, brick box right */
-  .post { height: 1080px; display: grid; grid-template-columns: 1fr 430px; gap: 56px; align-items: stretch; }
-  .post .words { display: flex; flex-direction: column; }
-  .post .mid { margin-top: auto; margin-bottom: auto; }
-  .post .box { align-self: center; }
-  .post .box .album { font-size: 34px; }
+  .post { height: 1350px; padding: 96px 150px; justify-content: space-between; }
+  .post .cover { width: 470px; }
+  .post h1 { font-size: 88px; }
+  .post .stack { display: flex; flex-direction: column; align-items: center; gap: 22px; }
 
-  /* story: stacked, keeps top and bottom 250px clear for Instagram's own buttons */
-  .story { height: 1920px; padding: 210px 90px 250px; }
-  .story .logo { width: 220px; }
-  .story .mid { margin-top: 56px; }
-  .story h1 { font-size: 124px; }
-  .story .sub { max-width: none; }
-  .story .box { margin: 52px auto 0; width: 540px; }
-  .story .foot { margin-top: auto; padding-top: 40px; text-align: center; }
+  /* story: top and bottom 250px kept clear for Instagram's own buttons */
+  .story { height: 1920px; padding: 250px 110px; justify-content: space-between; }
+  .story .logo { width: 200px; }
+  .story .cover { width: 600px; }
+  .story h1 { font-size: 104px; }
+  .story .stack { display: flex; flex-direction: column; align-items: center; gap: 26px; }
 </style>
 <body>
 <div id="root"></div>
 <script>
   var story = new URLSearchParams(location.search).get("format") === "story";
-  var box = '<div class="box"><img class="cover" src="../assets/releases/music-to-sit-down-to.jpg" alt="">' +
-            '<p class="from">from the sessions for</p><p class="album">Music To Sit Down To</p></div>';
-  var words = '<div class="mid"><p class="kicker">unreleased · free</p><h1>' + (story ? 'a song nobody’s<br>heard yet.' : 'a song<br>nobody’s<br>heard yet.') + '</h1>' +
-              '<p class="sub">Free to the first 250 people who sign up.</p></div>';
-  var foot = '<div class="foot"><span class="tag">link in bio →</span></div>';
-  var logo = '<img class="logo" src="../assets/brand/logo.svg" alt="">';
-  document.getElementById("root").innerHTML = story
-    ? '<div class="c story">' + logo + words + box + foot + '</div>'
-    : '<div class="c post"><div class="words">' + logo + words + foot + '</div>' + box + '</div>';
+  var html =
+    '<img class="logo" src="../assets/brand/logo-light.svg" alt="">' +
+    '<img class="cover" src="../assets/releases/music-to-sit-down-to.jpg" alt="">' +
+    '<div class="stack"><p class="kicker">unreleased · free</p>' +
+    '<h1>a song nobody’s<br>heard yet.</h1>' +
+    '<p class="sub">Free to the first 250 people who sign up.</p>' +
+    '<p class="from">from the Music To Sit Down To sessions</p></div>' +
+    '<span class="tag">link in bio →</span>';
+  document.getElementById("root").innerHTML = '<div class="c ' + (story ? 'story' : 'post') + '">' + html + '</div>';
 </script>
 </body>

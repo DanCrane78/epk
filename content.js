@@ -70,7 +70,7 @@ window.EPK = {
   ],
 
   // ── BIO ──────────────────────────────────────────────────────
-  bioShort: "Dan Crane is a songwriter and rapper from the South of England, and the most interesting thing about him is not how loud he is but how quiet. As Massive Cranes he made four albums in three years, two with O.S.T.R. and Helen Fisher and one with Observer. His new album, stay home., is out on 2 February 2027.",
+  bioShort: "Dan Crane is a songwriter and rapper from the South of England, and the most interesting thing about him is not how loud he is but how quiet. As Massive Cranes he made four albums in three years, two with O.S.T.R. and Helen Fisher and one with Observer, and one on his own. His new album, stay home., is out on 2 February 2027.",
 
   bioLong: [
     "In 2004, a young London group called Skill Mega put out a twelve-inch record with a producer from Łódź. It had three songs on it. It was called Bitter Blocker, and almost nobody remembers it. But it may be the most important record in this story, for a simple reason: the rapper and the producer both got older, but the rapper never quite stopped thinking he was too loud… turns out that was the point.",
