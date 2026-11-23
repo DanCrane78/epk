@@ -46,6 +46,7 @@
         <li><a href="#live">live.</a></li>
         <li><a href="#press">press.</a></li>
         <li><a href="#contact">contact.</a></li>
+        <li class="top__pdf"><a id="nav-sheet" href="assets/press/dan-crane-press-sheet.pdf" download title="Download the one-page press sheet (PDF)">press sheet ↓</a></li>
       </ul>
     </nav>
   </header>
@@ -71,6 +72,18 @@
     </section>
 
     <section class="facts" aria-label="At a glance"><dl id="facts"></dl></section>
+
+    <!-- FREE SONG: Kit sign-up form (text in content.js → giveaway) -->
+    <section class="section giveaway" id="free-song" aria-labelledby="free-song-h">
+      <h2 id="free-song-h" data-k="giveaway.title">free song.</h2>
+      <p class="giveaway__text" data-k="giveaway.text"></p>
+      <form class="giveaway__form" id="giveaway-form" method="post" action="https://app.kit.com/forms/10227105/subscriptions">
+        <label class="sr-only" for="giveaway-email">Email address</label>
+        <input id="giveaway-email" type="email" name="email_address" required autocomplete="email" placeholder="your email">
+        <button type="submit" class="btn">send me the song</button>
+      </form>
+      <p class="giveaway__small" data-k="giveaway.small"></p>
+    </section>
 
     <!-- LISTEN -->
     <section class="section" id="listen" aria-labelledby="listen-h">

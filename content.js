@@ -40,7 +40,7 @@ window.EPK = {
   facts: [
     { big: "4", small: "albums, 2024 to 2026" },
     { big: "39", small: "album tracks released" },
-    { big: "Łódź / London", small: "made with O.S.T.R across the two cities" },
+    { big: "Łódź / London", small: "made with O.S.T.R. across the two cities" },
     { big: "2 Feb 2027", small: "stay home. release date" },
   ],
 
@@ -70,12 +70,12 @@ window.EPK = {
   ],
 
   // ── BIO ──────────────────────────────────────────────────────
-  bioShort: "Dan Crane is a songwriter and rapper from the South of England, and the interesting thing about him is not how loud he got but how quiet. As Massive Cranes he made four albums in three years, with O.S.T.R, Helen Fisher and Observer, and finally alone. His new album, stay home., is out on 2 February 2027.",
+  bioShort: "Dan Crane is a songwriter and rapper from the South of England, and the interesting thing about him is not how loud he got but how quiet. As Massive Cranes he made four albums in three years, with O.S.T.R., Helen Fisher and Observer, and finally alone. His new album, stay home., is out on 2 February 2027.",
 
   bioLong: [
-    "In 2004, a young London group called Skill Mega put out a twelve-inch record with a producer from Łódź. It had three songs on it. It was called Bitter Blocker, and almost nobody remembers it. But it may be the most important record in this story, for a simple reason: the rapper and producer got older but never really stopped thinking he was too loud… turns out that was the point.",
+    "In 2004, a young London group called Skill Mega put out a twelve-inch record with a producer from Łódź. It had three songs on it. It was called Bitter Blocker, and almost nobody remembers it. But it may be the most important record in this story, for a simple reason: the rapper and the producer both got older, but the rapper never quite stopped thinking he was too loud… turns out that was the point.",
     "We like to tell musical careers as a string of breakthroughs. The big single. The big year. Dan Crane's career doesn't look like that. It looks like a conversation that has been going on for twenty years. As Dan Fresh he rapped in Brighton's Lost Souls, then in Skill Mega, the London group he co-founded with Reps, DJ Rod Dixon and O.S.T.R., one of Poland's best-known rappers and producers. There was an EP, two albums, and guest verses on three O.S.T.R. records.",
-    "Then something unexpected happened. He slowed down. As Massive Cranes (a name that came from his young son) he made four albums in three years: Monuments with O.S.T.R and the pianist Helen Fisher, Carnival with O.S.T.R, Fallen with his old Lost Souls friend Observer, and Music To Sit Down To, which he made entirely alone.",
+    "Then something unexpected happened. He slowed down. As Massive Cranes (a name that came from his young son) he made four albums in three years: Monuments with O.S.T.R. and the pianist Helen Fisher, Carnival with O.S.T.R., Fallen with his old Lost Souls friend Observer, and Music To Sit Down To, which he made entirely alone.",
     "In 1978, Brian Eno wrote that ambient music should be “as ignorable as it is interesting.” It sounds like a contradiction. It is, in fact, a job description. Most music competes for your attention. Dan Crane's waits for you. It is made for the least dramatic moments of a day: the coat still on, the kettle still warm, the bus not here yet. Those moments, it turns out, are the ones that belong to us entirely.",
     "Here's the thing. We assume the most important music is the music we notice. But the music we live with is the music that lets us notice everything else. His new album, stay home., is out on 2 February 2027. It is the first under his own name.",
   ],
@@ -102,7 +102,7 @@ window.EPK = {
       links: [{ name: "Apple Music", url: "https://music.apple.com/gb/album/fallen/1831524539" }],
     },
     {
-      title: "Carnival", with: "with O.S.T.R",
+      title: "Carnival", with: "with O.S.T.R.",
       meta: "8 March 2025 · 10 tracks · 30 min",
       cover: "assets/releases/carnival-album.jpg",
       tracks: [["Somethings Missing","2:25"],["Carnival","3:48"],["My Mate Mark","3:19"],["Birthday","2:30"],["Grounding Out","2:26"],["This House","3:14"],["The Cut","3:23"],["Sins","3:51"],["Asterisks","3:05"],["All Left Unsaid","2:08"]],
@@ -110,11 +110,11 @@ window.EPK = {
       links: [{ name: "Apple Music", url: "https://music.apple.com/gb/album/carnival/1795334088" }, { name: "SoundCloud", url: "https://soundcloud.com/massive_cranes" }],
     },
     {
-      title: "Monuments", with: "with O.S.T.R and Helen Fisher",
+      title: "Monuments", with: "with O.S.T.R. and Helen Fisher",
       meta: "1 March 2024 · 11 tracks · 36 min · debut album",
       cover: "assets/releases/monuments.jpg",
       tracks: [["The Beginning","4:22"],["Monsters","3:10"],["The Heartbeats","3:13"],["Ulcerated Wounds","3:54"],["Monuments","3:20"],["Elephants","3:18"],["Joker","2:24"],["Little Bits","3:06"],["Robert Frost","2:49"],["Shut Your Mouth","2:44"],["At Sea","3:40"]],
-      note: "Words by Dan Thurlow (with Helen Fisher on five). Music by Adam Ostrowski (O.S.T.R) and Helen Fisher.",
+      note: "Words by Dan Thurlow (with Helen Fisher on five). Music by Adam Ostrowski (O.S.T.R.) and Helen Fisher.",
       links: [{ name: "Apple Music", url: "https://music.apple.com/gb/album/monuments/1730396096" }],
     },
     {
@@ -137,7 +137,7 @@ window.EPK = {
     { title: "Kensal Green EP", year: "2025", note: "Bandcamp 7 March, streaming 4 July 2025: \"Kensal Green\", \"Sit Back\", \"That Summer\"" },
     { title: "Fallen", year: "2025", note: "Title track of Fallen, with Observer" },
     { title: "The Cut", year: "2025", note: "Single" },
-    { title: "Asterisks", year: "2025", note: "With O.S.T.R; B-side \"Carnival\"" },
+    { title: "Asterisks", year: "2025", note: "With O.S.T.R.; B-side \"Carnival\"" },
     { title: "Little Bits", year: "2024", note: "From Monuments" },
     { title: "The Beginning · Monsters · Elephants · Robert Frost", year: "2023", note: "The first Massive Cranes singles, ahead of Monuments" },
   ],
@@ -171,7 +171,7 @@ window.EPK = {
 
   // ── COLLABORATORS ────────────────────────────────────────────
   collaborators: [
-    { name: "O.S.T.R", text: "Adam Ostrowski, from Łódź, is one of Poland's best-known rappers and producers. He first produced for Dan in 2004, on a three-song twelve-inch. Ask why an English rapper's closest collaborator lives in Poland and the answer is disarmingly simple: they started, and neither of them stopped. Composer on Monuments and Carnival." },
+    { name: "O.S.T.R.", text: "Adam Ostrowski, from Łódź, is one of Poland's best-known rappers and producers. He first produced for Dan in 2004, on a three-song twelve-inch. Ask why an English rapper's closest collaborator lives in Poland and the answer is disarmingly simple: they started, and neither of them stopped. Composer on Monuments and Carnival." },
     { name: "Helen Fisher", text: "Pianist and vocalist. On Monuments she is not an accompanist but a co-writer, including on “The Beginning” and “At Sea”. Live, she plays keys beside him in the London club shows." },
     { name: "Observer", text: "Mr J (Joe Clark), from Brighton's Lost Souls: the crew Dan started out in, more than twenty years ago. Fallen (2025) is what happens when old friends come back to the same table. Co-writer of “Gordons Alive”; also a guest on Skill Mega's “Tony Heart” and “Family”." },
     { name: "Lady Paradox", text: "Rebekah Watson, a Leicester rapper and lyricist known for introspective, jazz-tinged UK hip hop. On “Bindweeds” (2026), which she co-wrote, two writers who prize restraint meet in the middle." },
@@ -193,7 +193,7 @@ window.EPK = {
   ],
   pressPack: {
     zip: "assets/press/dan-crane-press-pack.zip",
-    sheet: "",                       // TODO: e.g. "assets/press/dan-crane-press-sheet.pdf"
+    sheet: "assets/press/dan-crane-press-sheet.pdf",   // rebuild with: node tools/make-press-sheet.js
   },
 
   // ── LIVE ─────────────────────────────────────────────────────
@@ -234,6 +234,18 @@ window.EPK = {
     { name: "The Other Side Reviews", url: "https://theothersidereviews.com/a-chat-with-massive-cranes-26-03-23/" },
     { name: "Bored City", url: "https://boredcity.co/conversation-with-massive-cranes/" },
   ],
+
+  // ── FREE SONG (Kit sign-up, shown near the top, under the facts) ─
+  // Sign-ups go straight to the Kit form below. The song delivery email
+  // and what people see after signing up are set in Kit.
+  // Set show: false to hide the section (e.g. once 250 have signed up).
+  giveaway: {
+    show: false,                     // now lives on the fan site: dancrane78.github.io/#free-song (fan.js there turns it on/off)
+    kitFormId: "10227105",           // from app.kit.com/forms/designers/10227105/edit
+    small: "You'll get one email with the song, and a couple more around the release of stay home. Unsubscribe any time.",
+    title: "free song.",
+    text: "An unreleased song from the Music To Sit Down To sessions, free to the first 250 people who sign up. Leave your email and it's yours.",
+  },
 
   // ── CONTACT ──────────────────────────────────────────────────
   contact: {
