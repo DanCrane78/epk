@@ -235,19 +235,6 @@ window.EPK = {
     { name: "Bored City", url: "https://boredcity.co/conversation-with-massive-cranes/" },
   ],
 
-  // ── FREE SONG / MAILING LIST (Kit) ───────────────────────────
-  // In Kit: Grow → Landing Pages & Forms → your form → the number in its
-  // web address (…/forms/1234567/edit) is the form ID. Paste it below.
-  // With no form ID the box is hidden.
-  signup: {
-    kitFormId: "",                   // TODO: e.g. "1234567"
-    heading: "a free song.",
-    text: "Leave your email and I'll send you a song that isn't anywhere else. After that, just the occasional note when there's new music. No spam, and you can leave any time.",
-    askName: true,
-    button: "send me the song",
-    small: "You'll get an email to confirm first. Sent with Kit; you can unsubscribe any time.",
-  },
-
   // ── CONTACT ──────────────────────────────────────────────────
   contact: {
     blurb: "Booking, press and label enquiries:",

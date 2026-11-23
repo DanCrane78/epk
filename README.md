@@ -55,7 +55,3 @@ To use your own domain, e.g. `epk.massivecranes.com`:
 2. At your domain registrar, add a `CNAME` record: `epk` → `dancrane78.github.io`.
 3. Once it resolves, tick **Enforce HTTPS**.
 4. Update the four `https://dancrane78.github.io/epk/` addresses at the top of `index.html` to the new domain.
-
-## Free song mailing list
-
-A Kit sign-up box is built in and stays hidden until you add a form ID. Setup steps and draft emails: `docs/kit-setup.md`.

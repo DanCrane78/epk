@@ -189,18 +189,6 @@
     pa.appendChild(document.createTextNode(i < arr.length - 2 ? ", " : i === arr.length - 2 ? " and " : "."));
   });
 
-  // ── Free song sign-up (Kit)
-  var SU = C.signup || {};
-  var kitId = String(SU.kitFormId || "").replace(/\D/g, "");
-  if (kitId) {
-    $("free-song").hidden = false;
-    $("signup-form").action = "https://app.kit.com/forms/" + kitId + "/subscriptions";
-    if (!SU.askName) document.querySelector(".signup__name").remove();
-  } else if (TODO) {
-    $("free-song").hidden = false;
-    var f = $("signup-form"); f.replaceWith(todo("Kit form ID (signup.kitFormId)"));
-  }
-
   // ── Contact
   var K = C.contact || {}, cm = $("contact-main");
   if (K.email) cm.appendChild(link("mailto:" + K.email, K.email, "contact__email"));
