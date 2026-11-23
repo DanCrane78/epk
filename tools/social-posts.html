@@ -21,6 +21,15 @@
   .ink { background: #231a15; color: #e8e2d8; gap: 56px; }
   .photo { width: 928px; flex-grow: 1; min-height: 0; object-fit: cover; object-position: center 35%; display: block; filter: grayscale(1) sepia(.18) contrast(1.02); }
   .ink .foot { color: #b5aca0; }
+
+  /* 3 · the catalogue, paper */
+  .paper { background: #e8e2d8; color: #231a15; justify-content: space-between; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 928px; }
+  .grid figure { margin: 0; }
+  .grid img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+  .grid figcaption { font-size: 24px; font-weight: 500; margin-top: 10px; display: flex; justify-content: space-between; }
+  .grid figcaption span { color: #665c53; font-variant-numeric: tabular-nums; }
+  .paper .foot { color: #665c53; }
 </style>
 
 <div class="post brick" id="countdown">
@@ -37,6 +46,17 @@
   <img class="mark" src="../assets/brand/logo-light.svg" alt="dan crane.">
   <img class="photo" src="../assets/photos/with-ostr-2.jpg" alt="dan crane and o.s.t.r. in a record shop covered in stickers">
   <div class="foot">dan crane &amp; o.s.t.r. · london / łódź · since 2004.</div>
+</div>
+
+<div class="post paper" id="catalogue">
+  <img class="mark" src="../assets/brand/logo.svg" alt="dan crane.">
+  <div class="grid">
+    <figure><img src="../assets/releases/monuments.jpg" alt="monuments cover"><figcaption>monuments. <span>2024</span></figcaption></figure>
+    <figure><img src="../assets/releases/carnival-album.jpg" alt="carnival cover"><figcaption>carnival. <span>2025</span></figcaption></figure>
+    <figure><img src="../assets/releases/fallen.jpg" alt="fallen cover"><figcaption>fallen. <span>2025</span></figcaption></figure>
+    <figure><img src="../assets/releases/music-to-sit-down-to.jpg" alt="music to sit down to cover"><figcaption>music to sit down to. <span>2026</span></figcaption></figure>
+  </div>
+  <div class="foot">dan crane of massive cranes · four albums, 2024 to 2026.</div>
 </div>
 
 <script>
